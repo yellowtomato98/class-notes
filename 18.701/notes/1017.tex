@@ -1,0 +1,113 @@
+\section{October 17, 2022}
+\subsection{Discrete Subgroups of $M_2$}
+\begin{definition}
+\deflabel
+
+$G\subseteq M_2$ is \ac{discrete} if (1) $\exists \epsilon > 0$ such that no two distinct translation elements in $G$ are within $\epsilon$ of each other and (2) $\exists \epsilon_{\theta} > 0$ such that no two distinct rotation elements in $G$ are within $\epsilon_{\theta}$ of each other.
+
+\end{definition}
+
+\begin{example}
+\exlabel
+
+Discrete subgroups of $\RR^2$.
+\end{example}
+
+\begin{itemize}
+    \item $\{0\}$. This is the trivial group, so it is discrete.
+    \item $\ZZ\alpha$, where $\alpha\neq 0$.
+    \item $\ZZ\alpha + \ZZ\beta$, where $\alpha,\beta$ linearly independent
+\end{itemize}
+
+\begin{definition}
+\deflabel
+
+Let $G$ be a discrete subgroup of $M_2$. Define $\pi: G\rightarrow O_2(\RR)$ such that $\pi(Ax+b) = A$. Then, the $\ac{point group}$ $\overline{G} = \im{\pi}$, and the $\ac{lattice}$ $L = \ker{\pi}$. 
+\end{definition}
+
+$L$ is a normal subgroup in $G$, so we also have $\overline{G} = G/L$. These definitions should feel somewhat intuitive. The kernel of $\pi$ is the set of translations, since $A=I$, and this corresponds to our lattice. The image of $\pi$ is the set of all possible rotations / reflections of a single point in the plane, which corresponds to the point group. 
+
+\begin{theorem}
+\thmlabel
+
+$\forall A\in \overline{G}$, $b_0\in L$, we have $Ab_0\in L$. In other words, $\overline{G}$ preserves the lattice. 
+\end{theorem}
+
+Intuitively, if this wasn't true, this would be pretty catastrophic. For example, if your lattice was a square grid, and your point group somehow did not preserve the symmetries of a square, you would generate points outside of your lattice, and therefore your lattice would not be a square grid. 
+
+\begin{proof}
+Since $A\in \overline{G}$, there exists some map $\varphi\in G$ taking $x\mapsto Ax+b$. Note that $\varphi^{-1} = A^{-1}x-A^{-1}b$. Conjugating the map $x\mapsto x+b_0$ (which is in $G$, since it is in $L$) by $\varphi$ gives
+\[x\mapsto A(A^{-1}x-A^{-1}b+b_0)+b = x+Ab_0,\]
+so $Ab_0\in L$. 
+\end{proof}
+
+\begin{theorem}
+\thmlabelname{Crystallographic Restriction}
+
+If $L\neq \{0\}$, then $\overline{G} = C_n$ or $D_n$ with $n\in \{1,2,3,4,6\}$. 
+\end{theorem}
+
+\begin{proof}
+Pick some $\alpha \in L-\{0\}$ with $\alpha$ minimal. Suppose $\rho\in G$ is a rotation by $2\pi/n$. 
+\begin{center}
+\begin{asy}
+import graph; size(3cm); 
+pen dps = linewidth(0.7) + fontsize(10); defaultpen(dps);
+pen dotstyle = black;
+real scale = 1.75;
+
+pair O = (0,0);
+pair A = dir(20);
+pair pA = dir(70);
+
+draw(O--A);
+draw(A--pA);
+draw(O--pA);
+
+dot(O,dotstyle); 
+label("$O$", O, S*scale);
+dot(A,dotstyle); 
+label("$\alpha$", A, E*scale);
+dot(pA,dotstyle); 
+label("$\rho(\alpha)$", pA, NE*scale);
+\end{asy}
+\end{center}
+
+Whenever $n > 6$, like in the picture above, $\vert \rho(\alpha) - \alpha\vert < \vert \alpha\vert$. By our last theorem $\rho(\alpha)\in L\implies \rho(\alpha)-\alpha\in L$, so this contradicts the minimality of $\vert \alpha\vert$. Therefore, $n \leq 6$. 
+
+\begin{center}
+\begin{asy}
+import graph; size(4.5cm); 
+pen dps = linewidth(0.7) + fontsize(10); defaultpen(dps);
+pen dotstyle = black;
+real scale = 2.5;
+
+pair O = (0,0);
+pair A = dir(0);
+pair pA = dir(72);
+pair ppA = dir(144);
+pair X = ppA+A;
+
+draw(O--A);
+draw(O--pA);
+draw(O--ppA);
+draw(ppA--X);
+draw(A--X);
+
+dot(O,dotstyle); 
+label("$O$", O, S*scale);
+dot(A,dotstyle); 
+label("$\alpha$", A, S*scale);
+dot(pA,dotstyle); 
+label("$\rho(\alpha)$", pA, NE*scale);
+dot(ppA,dotstyle); 
+label("$\rho(\rho(\alpha))$", ppA, N*scale);
+dot(X,dotstyle); 
+label("$\alpha + \rho(\rho(\alpha))$", X, E*scale);
+\end{asy}
+\end{center}
+
+If $\rho$ is a rotation by $2\pi/5$, $0 < \vert \alpha + \rho(\rho(\alpha))\vert < \vert \alpha\vert$, so $n\neq 5$. 
+\end{proof}
+
+\comment{add something about frieze groups here}
