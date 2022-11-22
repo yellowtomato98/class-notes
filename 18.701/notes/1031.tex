@@ -1,0 +1,95 @@
+\section{October 31, 2022}
+
+\subsection{Jordan H{\"o}lder}
+
+\begin{definition}
+\deflabel
+\[G = G_0\supseteq G_1\supseteq G_2\supseteq \hdots \supseteq G_r = \{1\}\]
+is a \ac{composition series} of length $r$ when $G_{i+1}$ is normal in $G_i$, and $G_i/G_{i+1}$ is simple for all $i$.
+\end{definition}
+
+\begin{example}
+\exlabel
+
+\begin{itemize}
+    \item $G = C_6 \overset{C_3}{\supseteq} \{1, g^3\} \overset{C_2}{\supseteq} \{1\}$
+    \item $G = C_6 \overset{C_2}{\supseteq} \{1, g^2, g^4\} \overset{C_3}{\supseteq} \{1\}$
+    \item $G = S_3 \overset{C_2}{\supseteq} A_3 \overset{C_3}{\supseteq} \{1\}$
+\end{itemize}
+\end{example}
+
+In the first bullet point, we use $\{1, g, g^2\}\cong C_3$ and $\{1, g^3\}\cong C_2$. In the second bullet point, we use $\{1, g\}\cong C_2$ and $\{1, g^2, g^4\}\cong C_3$. In particular, the set of pairwise quotients are the same (up to isomorphism), which leads us to our main result today. 
+
+\begin{theorem}
+\thmlabelname{Jordan-H{\"o}lder}
+
+$r$ is uniquely defined by $G$, as is the set of all $G_i/G_{i+1}$ up to permutations.
+\end{theorem}
+
+We'll start with a lemma.
+
+\begin{theorem}
+\lemlabel
+
+Let $G$ be a group, and $H,H'$ be normal subgroups of $G$. Then, if $G/H$, $G/H'$ are simple and $H\neq H'$, $H/(H\cap H')\cong G/H'$ and $H'/(H\cap H')\cong G/H$.
+\end{theorem}
+\comment{insert diagram}
+
+\begin{proof}
+First we prove that $H$ and $H'$ cannot be contained in the other. Suppose for the sake of contradiction that $H\subseteq H'$. Then $H'$ corresponds to the subgroup $H'/H$ of $G/H$, and $H'/H$ is normal in $G/H$ because $H'$ is closed by conjugation for any element in $G$.
+
+$G/H$ simple $\implies$ $H'/H = \{1\}$ or $H'/H = G/H$. The former case implies $H'=H$, which is a contradiction. The latter case implies $H'=G$, which implies $G/H'$ is not simple, contradiction. 
+
+So, $H\subsetneq H'$, and similarly $H'\subsetneq H$. Now consider $HH' = \{hh' : h\in H, h'\in H'\}$. This is a subgroup of $G$, because 
+\[h_1h_1'h_2h_2' = \underbrace{(h_1h_2)}_{\in H}\underbrace{(h_2^{-1}h_1'h_2)}_{\in H'}h_2'\]
+
+\comment{add explanation}. This is a normal subgroup of $G$.
+
+$HH'/H$ is normal in $G/H$, so it must be $\{1\}$ or $G/H$. The former implies $H'\subseteq H$, which is impossible, so $HH'/H=G/H$.
+
+Look at the map taking $H' \rightarrow HH' \rightarrow HH'/H$.
+$G/H = HH'/H \cong H'/(H'\cap H)$. Similarly, $G/H'\cong H/(H'\cap H)$.
+\end{proof}
+
+Now we're ready to prove Jordan-H{\"o}lder.
+\begin{proof}
+We proceed with induction on $r$. The base case is when $r=1$, in which case $G$ itself is simple, so it holds. 
+
+For each $r$, we further induct on $\vert G\vert$. Assume true for a composition series of length smaller than $r$ and all groups with size smaller than $\vert G\vert$.
+
+Suppose we have two composition series:
+\begin{align*}
+    G = G_0\supseteq G_1\supseteq G_2\supseteq \hdots \supseteq G_r = \{1\} \\
+    G = H_0\supseteq H_1\supseteq H_2\supseteq \hdots \supseteq H_s = \{1\},
+\end{align*}
+for some $s\geq r$. If $G_1=H_1$, then we're done, since $\vert G_1\vert < \vert G\vert$. So, suppose $G_1\neq H_1$. Let $K_1 = G_1\cap H_1$. Then $G_1/K_1\cong G/H_1$ and $H_1/K_1\cong G/G_1$ by our lemma. 
+
+Strategy: intersect everything with $K_1$. Let $K_i = G_i\cap K_1$. Then,
+\[K_1\supseteq K_2\supseteq \hdots \supseteq K_r = \{1\}\]
+is not a composition series but it is almost; it can contain duplicate elements which, once removed, becomes a composition series.
+
+$K_i\rightarrow G_i\rightarrow G_i/G_{i+1}$. $K_i/(K_i\cap G_{i+1})\cong \text{normal subgroup of }G_i/G_{i+1}$. So $K_i/K_{i+1}$ is either the trivial group or $G_i/G_{i+1}$.
+
+Now consider
+\begin{align*}
+    G_1\supseteq G_2\supseteq \hdots \supseteq G_r = \{1\}, \\
+    G_1\supseteq K_1\supseteq K_2 \hdots \supseteq K_r = \{1\}.
+\end{align*}
+These must have the same length by our induction hypothesis, since the first composition series has length $r-1$. This implies that the second series has a single duplicate element.
+
+Now consider
+\begin{align*}
+    H_1\supseteq H_2\supseteq \hdots \supseteq H_s = \{1\}, \\
+    H_1\supseteq K_1\supseteq K_2 \hdots \supseteq K_r = \{1\}.
+\end{align*}
+The bottom series has length $r-1$ when you remove the duplicate. This implies $s-1=r-1$, so $s=r$. 
+
+Let's look again at all of our composition series (for the ones with $K$, remove the duplicate element): 
+\begin{align*}
+    G = G_0\supseteq G_1\supseteq G_2\supseteq \hdots \supseteq G_r = \{1\} \\
+    G = G_0\supseteq G_1\supseteq K_1\supseteq \hdots \supseteq K_r = \{1\} \\
+    G = H_0\supseteq H_1\supseteq K_1\supseteq \hdots \supseteq K_r = \{1\} \\
+    G = H_0\supseteq H_1\supseteq H_2\supseteq \hdots \supseteq H_s = \{1\}.
+\end{align*}
+The first two series are the same by induction. The second and third are the same by our lemma. The last two are the same by induction. 
+\end{proof}

@@ -1,0 +1,131 @@
+\section{November 9, 2022}
+
+\subsection{Unitary Group}
+
+Let $\gen{x,y} = x^ty$ be the usual inner product. 
+
+The set of orthogonal matrices can be defined by the set of all matrices $M$ satisfying $\gen{Mx, My} = \gen{x,y}$ for $x, y\in \RR^n \iff M^tM = I_n$. In other words, we can write 
+\[O(n) = \{M\in \RR^{n\times n} : M^tM = I_n\}.\]
+
+Let's generalize to the Hermitian inner product. Let $\gen{x,y} = \overline{x}^ty$ on $\CC^n$. Then, we have $\gen{Mx,My} = \gen{x,y}\iff x^* M^* My = x^*y\iff M^*M = I_n$, so this turns out to be analogous to the real case. 
+
+\begin{definition}
+\deflabel
+
+The \ac{unitary group} is the set of complex matrices 
+
+\[U(n) = \{M\in \CC^{n\times n} : M^*M = I_n\}.\]
+\end{definition}
+
+\begin{theorem}
+\proplabel 
+
+The eigenvalues of any Hermitian matrix are real. 
+\end{theorem}
+
+\begin{proof}
+Suppose $A^* = A$, $Av = \lambda v$, $v\neq 0$ for $\lambda\in \CC, v\in \CC^n$. Then we must have $v^*Av\in \RR$, since $(v^*Av)^* = v^*A^*v = v^*Av$. We can also view this product as a Hermitian form. 
+
+We also know $v^*v\in \RR$, since 
+\[v = \begin{pmatrix}v_1 \\ \vdots \\ v_n\end{pmatrix} \implies v^*v = \sum_{j=1}^n \vert v_j\vert ^2.\]
+
+Thus, $v^*Av = \lambda v^*v$ implies 
+\[\lambda = \frac{v^*Av}{v^*v}\in \RR. \]
+\end{proof}
+
+\subsection{Degeneracy}
+
+Standing assumption for the rest of this lecture: Let $V$ be a finite dimensional real or complex vector space. Let $\gen{\cdot, \cdot}$ be a symmetric or Hermitian form on $V$, which is not assumed to be positive definite. 
+
+\begin{definition}
+\deflabel
+
+For any $v,w\in V$, we say they are \ac{orthogonal}, or that $v\perp w$, if $\gen{v,w} = 0\iff \gen{w,v} = 0$. 
+\end{definition}
+
+\begin{definition}
+\deflabel
+
+For any subspace $W$, we define the orthogonal subspace 
+\[W^{\perp} = \{v\in V : v\perp w \quad\forall w\in W\}\]
+\end{definition}
+
+General forms yield interesting examples of orthogonal vectors. For example, vectors may be orthogonal to itself, or to the entire vector space. 
+
+\begin{example}
+\exlabel
+
+Let $V = \RR^2$. 
+
+\begin{itemize}
+    \item If $\gen{x,y} = x^t \twotwo{1}{0}{0}{-1} y$, then $\vtwo{1}{1}\perp \vtwo{1}{1}$. 
+    \item If $\gen{x,y} = x^t \twotwo{1}{0}{0}{0} y$, then $\vtwo{0}{1}\in (\RR^2)^{\perp}$. 
+\end{itemize}
+\end{example}
+
+\begin{definition}
+\deflabel
+
+The \ac{null space} are the vectors orthogonal to everything, i.e., $V^{\perp}$. We call vectors in the null space as \ac{null vectors}. We say that our form is \ac{degenerate} if $V^{\perp}\neq \{0\}$. \V
+
+Let $W$ be a subspace of $V$. We say that $\gen{\cdot, \cdot}$ is degenerate on $W$ when $W\cap W^\perp \neq \{0\}$. 
+\end{definition}
+
+These definitions should intuitively align with what we already know about null spaces and kernels. For example, our form is degenerate if and only if the determinant of the corresponding matrix is $0$, since invertible matrices automatically zero out any null vector. 
+
+\begin{theorem}
+\lemlabel
+
+If $\gen{\cdot, \cdot}$ is non-degenerate and $x,y\in V$ satisfies $\gen{x,v} = \gen{y,v}$ for all $v\in V$, then $x=y$. 
+\end{theorem}
+
+\begin{proof}
+By linearity, we know $\gen{x-y,v}=0$ for all $v\in V$. This implies $x-y\in V^{\perp} = \{0\}$, so $x=y$. 
+\end{proof}
+
+\begin{theorem}
+\proplabel
+
+If $A$ is a matrix for $\gen{\cdot, \cdot}$ with respect to a basis, then null vectors form $\ker A$, or the null space of $A$ itself. 
+\end{theorem}
+
+\begin{proof}
+$\gen{x,y} = x^*Ay$ if $x,y$ are coordinate vectors with respect to our basis. Then, 
+\[y\in V^{\perp}\iff x^*Ay = 0\quad\forall x \iff Ay=0,\]
+which is true by plugging in elementary basis vectors for $x$. 
+\end{proof}
+
+\begin{theorem}
+\thmlabel
+
+Let $W$ be a subspace of $V$. Then 
+\[V = W\oplus W^{\perp}\iff \gen{\cdot, \cdot}\text{ non-deg on }W.\]
+\end{theorem}
+
+Recall that being non-degenerate on $W$ means that $W\cap W^{\perp} = \{0\}$, and that the direct sum means that each $v\in V$ can be written uniquely as a sum of elements of $W$ and $W^{\perp}$. 
+
+\begin{proof}
+$V = W\oplus W^{\perp}$ if and only if $V = W+W^{\perp}$ and $W\cap W^{\perp} = \{0\}$. In other words, every vector in $V$ can be written uniquely as the sum of vectors in $W, W^{\perp}$ if and only if they can be written possibly non-uniquely, and the intersection is null, in which case sums are unique. This implies the forward direction.
+
+So now we need to show that $W\cap W^{\perp} = \{0\}\implies V=W+W^{\perp}$. First, pick a basis of $W$, and extend it to a basis of $V$, so that the matrix $M$ for $\gen{\cdot, \cdot}$ in this basis is given by
+\[M = \left(\begin{array}{ c | c }
+    A & B \\
+    \hline
+    C & D
+  \end{array}\right),\]
+  
+with $A$ the matrix for $\gen{\cdot, \cdot}$ on $W$. Since $W\cap W^{\perp} = \{0\}$, the kernel of $A$ is trivial by our previous proposition, so $A$ is invertible. Now, if $B = 0$, we would be done, since we would have that the basis vectors not in $W$ are all orthogonal to the basis vectors in $W$, and therefore $V = W+W^{\perp}$. It turns out that we can change our original basis such that this is true. 
+
+Consider another basis matrix 
+\[B = \twotwo{I}{Q}{0}{I},\]
+with the intuition that the first ``column" of $B$ preserves the basis vectors in $W$, and the second ``column" of $B$ adds some basis vectors in $W$ to every other vector in $M$. 
+
+Under this new basis, our new matrix for $\gen{\cdot, \cdot}$ becomes 
+\[B^*MB = \twotwo{I}{0}{Q^*}{I}\twotwo{A}{B}{C}{D}\twotwo{I}{Q}{0}{I} = \twotwo{A}{B}{\sim}{\sim}\twotwo{I}{Q}{0}{I} = \twotwo{A}{AQ+B}{\sim}{\sim}.\]
+
+Since $A$ is invertible, we can let $Q=-A^{-1}B$, in which case the basis vectors in $W$ are all orthogonal to the basis vectors not in $W$ under our new basis, so we're done. 
+\end{proof}
+
+No lecture on Friday due to Veteran's day.
+
+
