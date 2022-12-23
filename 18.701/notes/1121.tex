@@ -1,0 +1,118 @@
+\section{November 21, 2022}
+
+Today, we'll be talking about a few different applications of the Spectral theorem. In contrast to the Jordan canonical form, this theorem is surprisingly useful in lots of different ways. 
+
+Recall the complex and real variants of the spectral theorem: 
+
+\begin{theorem}
+\thmlabelname{Spectral theorem}
+
+(Complex): Every normal operator on a Hermetian space has an orthonormal basis of vectors. (Real): Every symmetric operator on a Euclidean space has an orthonormal basis of vectors.
+\end{theorem}
+
+\subsection{Quadric Hypersurfaces (Conic Sections)}
+
+A \ac{quadric hypersurface} is a solution to any quadratic equation in $n$ variables. Recall that functions representing these surfaces can be written as
+\[f(x) = x^tAx+b^tx+c,\]
+where $x\in \RR^n$, $A\in \RR^{n\times n}$ and symmetric, $b\in \RR^n$, and $c\in R$. We can say that $A$ is symmetric, since $x^tAx = (x^tAx)^t = x^tA^tx$, so we can let $A\mapsto (A+A^t)/2$. The spectral theorem implies that $A$ is diagonalizable. 
+
+When $n=2$, our function is just a conic section. Since $A$ is diagonalizable, we may write our equation as $ax^2+bx^2+cx+dy+e=0$ (eliminating the $xy$ term). If $a,b\neq 0$, we can complete the square, e.g.,
+\[ax^2+cx = \left(x+\frac{c}{2a}\right)^2-\frac{c^2}{4a}.\]
+
+So we can eliminate cross terms with rotation (basis in $O_2(\RR)$), and linear terms by translation whenever there is a non-zero quadratic term, which reduces the equation to something we might see in high school. 
+
+The same thing works for the general case. When $A$ is invertible, we can completely eliminate its linear terms by translation: 
+\begin{align*}
+    &(x+x_0)^tA(x+x_0) + b^t(x+x_0)+c=0 \\
+    &\iff (x^tAx+x^tAx_0+x_0^tAx+x_0^tAx_0)+(b^tx+b^tx_0)+c=0 \\
+    &\iff \hdots + (2Ax_0+b)^tx + \hdots = 0,
+\end{align*}
+so we can let $x_0 = -(bA^{-1})/2$ to eliminate linear terms (as before, $A$ is diagonal, so it only contributes squared terms).
+
+\subsection{Principal Component Analysis (PCA)}
+
+Let $X_1, \hdots, X_n$ be random variables. Let's say we have lots of data, so we can estimate means and covariances for these random variables. Without loss of generality, subtract the mean from each value, so $\EE(X_i)=0$. 
+
+\begin{definition}
+\deflabel
+
+The \ac{covariance matrix} $M\in \RR^{n\times n}$ is given by $M = (\EE(X_iX_j))_{1\leq i,j\leq n}$. If we let $X = \begin{pmatrix}X_1 &\hdots &X_n\end{pmatrix}^t$, this is equivalent to $M = \EE(XX^t)$.
+\end{definition}
+
+Note that $M$ is symmetric and positive semidefinite. 
+
+Lets consider a linear change of variables, $c_1X_1+\hdots c_nX_n=c^tX$, where $c = \begin{pmatrix}c_1 & \hdots &c_n\end{pmatrix}^t$. The goal of PCA is to choose $c\neq 0$ to maximize the variance, without making $c$ large, i.e., to maximize
+\[\frac{\var (c^tX)}{c^tc} = \frac{\EE(c^tX\cdot (c^tX)^t) - \EE(c^tX)}{c^tc} = \frac{c^tMc}{c^tc}.\]
+
+The idea is that by preserving the variance of our data, we do not ``lose information''. By the spectral theorem, there is an orthonormal basis $v_1, \hdots, v_n$ for $M$ such that $Mv_i = \lambda_iv_i$. Assume that they are ordered, so that $\lambda_1\geq \lambda_2\geq \hdots \geq \lambda_n\geq 0$.
+
+Suppose $c = \sum \alpha_iv_i$, which implies $c^tc = \sum_i \alpha_i^2$, since $\{v_i\}$ are orthonormal. Then, 
+\[Mc = \sum_i \alpha_i \lambda_i v_i \implies c^tMc = \sum_i \alpha_i^2\lambda_i \implies \frac{c^tMc}{c^tc} = \frac{\sum_i \alpha_i^2\lambda_i}{\sum_i \alpha_i^2}\]
+This is a weighted average of $\lambda_i$ with weights proportional to $\alpha_i^2$. In other words,
+\[\frac{c^tMc}{c^tc}\leq \lambda_1,\]
+with equality if and only if $c$ is an eigenvector with eigenvalue $\lambda_1$. 
+
+This gives way to the following formula: 
+\begin{theorem}
+\proplabelname{Rayleigh-Ritz Formula}
+\[\lambda_k = \max_{\substack{c\in \RR^n\setminus\{0\}\\ c\perp v_i\text{ for }i<k}} \left(\frac{c^tMc}{c^tc}\right)\]
+\end{theorem}
+
+Rayleigh-Ritz is often taken as a direct corollary of the spectral theorem. The formula tells us that the largest eigenvector maximizes our variance, as we have shown. The second largest eigenvector maximizes our variance, subject to the constraint that it is distinct (i.e., perpendicular) from the first eigenspace. And so on. 
+
+In practice, this is a very useful formula. For example, dimension reduction for large datasets. We want to throw out as much information as possible without losing information that we care about, in order to increase the interpretability of the data. PCA suggests that the best way to do this is to keep the top eigenvectors. If we have a million random variables, but we wish we only had fifty, then we should look at the random variables corresponding to the top fifty eigenvectors, and see if this gives us enough information. 
+
+In practice, a real life example is its use in facial recognition software. Each individual pixel in an image has some number of parameters corresponding to its RGB value. By using PCA, we can generate a set of ``eigenfaces'' corresponding to the most distinctive features of a particular set of faces, limiting the total number of dimensions required to e.g. train a neural network on a particular dataset. 
+
+\subsection{Singular Value Decomposition (SVD)}
+
+SVD is a technique that can be applied to general data matrices in the same way that PCA can be applied to covariance matrices. 
+
+Say we have a very large data matrix
+\[\mathbf{X}\in \RR^{N\times n},\]
+where $\mathbf{X}_{ij}$ represents the $i$th sample for $X_j$. As before, subtract means. Then,
+\[M = \frac{1}{N}\mathbf{X}^t\mathbf{X}\]
+can (sort of) be seen as a covariance matrix. The difference here from PCA is that this matrix can be rectangular, so we apply SVD instead.
+
+\begin{definition}
+\deflabel
+
+For $A\in \RR^{m\times n}$, its \ac{Singular Value Decomposition (SVD)} is given by $A = V\sum W^t$, where $V\in O_m(\RR)$, $W\in O_n(\RR)$, and $\Sigma\in \RR^{m\times n}$ is a diagonal matrix with diagonal entries $\sigma_1\geq \sigma_2 \geq \hdots \geq 0$, which are called the \ac{singular values}. 
+\end{definition}
+
+Proof of existence:
+\begin{proof}
+\[A^tA = W\Sigma^t \Sigma W^t\]
+\[AA^t = V\Sigma \Sigma^t V^t\]
+
+These are both the spectral diagonalizations. $\Sigma \Sigma^t$ and $\Sigma^t\Sigma$ are both diagonal with eigenvalues $\sigma_1^2\geq \sigma_2^2\geq \hdots\geq 0$ excluding some extra zeros when the dimensions are not balanced, so the existence of the SVD is equivalent to saying that $A^tA$ and $AA^t$ have the same set of eigenvalues. 
+
+$A^tA$ is symmetric, so the spectral theorem implies that there exists an orthonormal basis $\{w_i\}$ of eigenvectors for $A^tA$. \comment{bleh add later}. 
+\end{proof}
+
+\subsection{Addendum: Moore-Penrose pseudoinverse}
+
+Addendum: this was not covered in lecture, but is another relevant application of SVD. 
+
+Let $A\in \RR^{m\times n}$ and $b\in \RR^n$. SVD gives us a way to construct a least-squares solution $x^*\in \RR^m$ to $Ax=b$, i.e., that $\vert Ax^*-b\vert$ is minimized amongst all possible $x$. Another way to view this is that the least-squares solution is the best approximation to solving $Ax=b$, even when there is not necessarily an exact solution. 
+
+Let $S$ be the column space of $A$, which is some subspace of $\RR^n$. For any $v\in \RR^n$, let $v\vert_S$ be the components of $v$ restricted to $S$ (i.e., a projection). A least squares solution to the equation $Ax=b$ will satisfy $(Ax^*)\vert_S = b\vert_S$, since $b\vert_S$ is necessarily in $S$ and therefore reachable by $A$. Moreover, $b\vert_{S^{\perp}}$ is inaccessible to $A$, so this is the best we can do. Now, if we split $A$ into its SVD, we find
+\[b\vert_S = (Ax^*)\vert_S = (V\Sigma W^tx^*)\vert_S,\]
+The restriction of $V\Sigma W^tx^*$ to $S$ is the restriction of $\Sigma$ to its non-zero diagonal elements. Therefore, if we define $\Sigma^\dagger\in \RR^{m\times n}$ to be diagonal with 
+
+\[(\Sigma^\dagger)_{ii} = \begin{cases}1/(\Sigma)_{ii} & (\Sigma)_{ii}\neq 0 \\ 0 & \text{else},\end{cases}\]
+
+then we find that $x^* = W\Sigma^{\dagger}V^tb = A^{\dagger}b$ is a least-squares solution. 
+
+\begin{definition}
+\deflabel 
+
+The matrix $A^{\dagger}$ is called the \ac{Moore-Penrose pseudoinverse} for $A$.
+\end{definition}
+
+Every matrix in $\RR^{m\times n}$ has this pseudoinverse given by its SVD, as shown above. Is this pseudoinverse unique? By our original stipulation $b\vert_S = (Ax^*)\vert_S$, we want $AA^{\dagger}\vert_S = I_n$ (when $A$ is invertible, $A^{\dagger}=A^{-1}$, hence the name). If we additionally stipulate that $AA^\dagger A = A$, $A^{\dagger}AA^{\dagger}=A^{\dagger}$, and $AA^{\dagger}$, $A^{\dagger}A$ are both symmetric in order to remove the restriction from $S$, then the SVD construction for $A^{\dagger}$ is unique. Here is a quick sketch. 
+
+\begin{proof}
+Suppose $A^{\dagger}$ and $B^{\dagger}$ were two pseudoinverses for $A$. Then $(AA^{\dagger}-AB^{\dagger})^2 = A(A^{\dagger}-B^{\dagger})A(A^{\dagger}-B^{\dagger}) = (A-A)(A^{\dagger}-B^{\dagger})=0$, and similarly $(A^{\dagger}A - B^{\dagger}A)^2=0$. But, since both are symmetric matrices, $AA^{\dagger}=AB^{\dagger}$ and $A^{\dagger}A=B^{\dagger}A$ by \href{https://math.stackexchange.com/questions/358488/a-symmetric-matrix-whose-square-is-zero}{here}. Thus $B^{\dagger} = B^{\dagger}AB^{\dagger} = A^{\dagger}AB^{\dagger} = A^{\dagger}AA^{\dagger} = A^{\dagger}$, as desired. 
+\end{proof}
+

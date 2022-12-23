@@ -1,0 +1,114 @@
+\section{November 18, 2022}
+
+\subsection{The Spectral theorem}
+
+Standing assumptions: let $V$ be a Hermetian space (has an inner product), which we proved last lecture can be viewed as $\CC^n$ with the usual Hermetian form using any orthonormal basis of $V$. 
+
+\begin{definition}
+\deflabel
+
+The \ac{adjoint} of any linear operator $T: V\rightarrow V$ is $T^*: V\rightarrow V$, which is defined so that if $M$ is the matrix of $T$ with respect to some basis, $M^*$ is the matrix of $T^*$ with respect to the same basis. 
+\end{definition}
+
+Adjoint linear operators are basis independent. If $M' = B^{-1}MB$, with $B\in U_n$, i.e., $B^{-1} = B^*$, then 
+\[(M')^* = B^*M^*B = B^{-1}M^*B,\]
+so the original two linear operators are adjoint with respect to any basis. 
+
+\begin{definition}
+\deflabel
+
+$T$ is \ac{Hermetian} if $T^* = T$, \ac{unitary} if $T^*T = I_n$, and \ac{normal} if $TT^* = T^*T$. Hermetian and unitary matrices are also normal.
+\end{definition}
+
+In general, $\gen{Tv,w} = (Mv)^*w = v^*M^*w = \gen{v, T^*w}$. Therefore, we can say that:
+\begin{itemize}
+    \item Hermetian forms satisfy 
+    \[\gen{Tx,y} = \gen{x, Ty}.\]
+    \item Unitary forms satisfy
+    \[\gen{Tx,Ty} = \gen{x, y}.\]
+    \item Normal forms satisfy
+    \[\gen{Tx,Ty} = \gen{x, T^*Ty} = \gen{x, T^*Ty} = \gen{T^*x, T^*y}.\]
+\end{itemize}
+
+\begin{theorem}
+\thmlabelname{Spectral theorem}
+
+If $T: V\rightarrow V$ is normal, then there exists an orthonormal basis of $V$ consisting of eigenvectors of $T$. 
+\end{theorem}
+
+This is a pretty powerful statement. If $T$ is normal, not only do we get that $T$ is diagonalizable, but we also get that the basis under which its matrix is diagonal is orthonormal.
+
+Further, we can show that the spectral theorem is as strong as possible; i.e., that the converse is true. Given an orthonormal basis of $V$ consisting of eigenvectors of $T$, then the matrix for $T$ under this basis is given by $M = P^*\Lambda P$, where $P\in U_n$ and 
+\[\Lambda = \begin{pmatrix}
+\lambda_1 &  & 0 \\
+ & \ddots &  \\
+0 &  & \lambda_n
+\end{pmatrix}.\]
+
+The fact that $P$ is unitary implies that our basis is orthonormal, so each eigenvalue has magnitude $1$. Now, if $M = P^*\Lambda P$, then $M^* = P^*\Lambda^*P$ and 
+\[\Lambda^* = \begin{pmatrix}
+\overline{\lambda_1} &  & 0 \\
+ & \ddots &  \\
+0 &  & \overline{\lambda_n}
+\end{pmatrix}.\]
+
+So, we must have 
+\[MM^* = P^*\Lambda \Lambda^* P = P^* \Lambda^*\Lambda P = M^*M,\]
+since diagonal matrices commute, implying that $M$ is normal. Let's first build up some key lemmas before proving the spectral theorem. 
+
+\begin{definition}
+\deflabel
+
+Subspace $W\subseteq V$ is \ac{$T$-invariant} if $T(W)\subseteq W$.
+\end{definition}
+
+\begin{theorem}
+\lemlabel
+
+If $W$ is $T$-invariant, then $W^{\perp}$ is $T^*$-invariant. The converse is also true. 
+\end{theorem}
+
+\begin{proof}
+Suppose $v\in W^{\perp}$. In other words, $\gen{v,w} = 0$ for all $w\in W$. Then, for all $w\in W$
+\[\gen{T^*v, w} = \gen{v, \underbrace{Tw}_{\in W}} = 0.\]
+Thus $T^*v\in W^{\perp}$. 
+
+This works in both directions. If $W^{\perp}$ is $T^*$-invariant, then $(W^{\perp})^{\perp} = W$ is $(T^*)^* = T$-invariant.
+\end{proof}
+
+Our next lemma gives us a concrete relationship between the eigenvectors of $T$ and $T^*$. 
+
+\begin{theorem}
+\lemlabel
+
+If $T$ is normal and $v\in V$ is an eigenvector of $T$ with eigenvalue $\lambda$, then $T^*v = \overline{\lambda}v$. 
+\end{theorem}
+
+\begin{proof}
+First, we show that this works when $\lambda = 0$, i.e., $Tv=0$. In this case, 
+\[0=\gen{Tv, Tv} = \gen{T^*v, T^*v},\]
+implying $T^*v=0$ by positive definiteness. 
+
+In general, suppose $T$ has eigenvalue $\lambda$ and corresponding eigenvector $v$. Define $S = T-\lambda I$, so that $Sv=0$. Then, $S^* = T^* - \overline{\lambda}I$, and 
+\begin{align*}
+    SS^* &= (T-\lambda I)(T^* - \overline{\lambda}I) \\
+    &= TT^* - \lambda T^* - \overline{\lambda}T + \vert \lambda\vert^2I \\
+    &= T^*T - \lambda T^* - \overline{\lambda}T + \vert \lambda\vert^2I \\
+    &= (T^*-\overline{\lambda}I)(T-\lambda I) = S^*S,
+\end{align*}
+where the third equality follows from the fact that $T$ is normal. This implies that $S$ is normal, so we can apply the same argument for $\lambda=0$ used above to get $S^*v=0\iff \overline{\lambda}$ is an eigenvalue for $T^*$ with the same corresponding eigenvector. We're done!
+\end{proof}
+
+Now, we're ready to prove the spectral theorem.
+\begin{proof}
+We proceed with induction on $\dim V$. 
+
+There exists an eigenvector $v$ of $T$ with eigenvalue $\lambda$. Since we're working over the complex numbers, the characteristic polynomial always has a root, so this eigenvector is guaranteed. By our second Lemma, 
+\[Tv = \lambda v\implies T^*v = \overline{\lambda} v.\]
+This implies that the one dimensional subspace $W = \CC v$ is both $T$-invariant and $T^*$-invariant. By our first lemma, this means that $W^{\perp}$ is $T^*$-invariant and $T$-invariant as well. 
+
+Therefore, $T\vert_{W^{\perp}}$ (the restriction of $T$ to $W^{\perp}$) is a linear operator on $W^{\perp}$, whose adjoint is $T^*\vert_{W^{\perp}}$. Since $W^{\perp}$ is the complement of a one-dimensional subspace of $V$, $\dim W^{\perp} = \dim V-1$. Moreover, $T$ is still normal with respect to $W^{\perp}$, since $T$ and $T^*$ commutes. Therefore, there exists an orthonormal basis for $W^{\perp}$ with eigenvectors of $T\vert _{W^{\perp}}$ by our induction hypothesis. Now we can just rescale $v\in W$ and add it to the basis to finish. 
+\end{proof}
+
+This is the first time that we see a divergence in the theory between real and complex vector spaces. The spectral theorem does not hold for Euclidean spaces, because we are no longer guaranteed that every operator $T$ has a real eigenvalue (the first step of our proof). For example, one implication of the spectral theorem is that all unitary operators are conjugate to a diagonal operator. The analogous statement for Euclidean spaces is false; it is not true that all orthogonal operators are diagonalizable. 
+

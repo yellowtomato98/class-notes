@@ -1,0 +1,125 @@
+\section{November 4, 2022}
+
+\subsection{Proving Sylow's Theorem}
+
+Recap from last time:
+
+\begin{definition}
+\deflabel
+
+Let $G$ be finite group and $p$ a prime number such that $p^k\mid \vert G\vert$ but $p^{k+1}\nmid \vert G\vert$. Then, a \ac{Sylow $p$-subgroup} of $G$ is a subgroup of order $p^k$.
+
+\end{definition}
+
+\begin{theorem}
+\thmlabelname{Sylow's Theorem}
+
+For any finite group $G$ and prime $p$, 
+\begin{enumerate}
+    \item [(1)] $G$ has a Sylow $p$-subgroup.
+    \item [(2)] All the Sylow $p$-subgroups in $G$ are conjugate.
+    \item [(3)] Every $p$-subgroup (any subgroup whose order is a power of $p$) is contained in some Sylow $p$-subgroup. 
+    \item [(4)] The number of Sylow $p$-subgroups is $1\mod{p}$ and divides $\vert G\vert / p^k$.
+\end{enumerate}
+\end{theorem}
+
+Today, we'll prove all four parts of this theorem. Proving this theorem is good culmination of everything that we have learned so far about group actions in this course.
+
+Let's start with (1), which we proved on the problem set. We'll take a different approach here.
+\begin{proof}
+Consider the action of $G$ by left multiplication on subsets (not necessarily subgroups) of $G$ of size $p^k$. Suppose we find some subset $U\subseteq G$ with $\vert U\vert = p^k$ such that the orbit size is not divisible by $p$.  
+
+If so, let $H = \stab_{G}(U) = \{h\in G: hU = U\}$. Then $H$ is a p-group (i.e., its order is a power of $p$). We have that $Hu\in U\forall u\in U$, so $U$ is partitioned into right cosets of $H$. Since every right coset has the same size ($\vert H\vert$), the size of $H$ must divide the size of $U$, so $H$ is a p-group. 
+We also have $\vert G\vert = \underbrace{\vert GU\vert}_{v_p=0} \vert H\vert\implies p^k\mid \vert H\vert$, so $H$ is a Sylow $p$-subgroup. 
+
+Now we are left to show that $U$ exists. The number of subsets of size $p^k$ is equal to $\binom{mp^k}{p^k}$. Since the orbits partition this set of subsets, if this quantity isn't divisible by $p$, some orbit size isn't, so we are left to show that this is not divisible by $p$.
+
+\begin{theorem}
+\lemlabel
+
+\[\binom{pa}{pa}\equiv \binom{a}{b}\pmod{p}.\]
+\end{theorem}
+
+\begin{proof}
+By binomial expansion, 
+\[\binom{pa}{pb} = [x^{pb}] (1+x)^{pa}\]
+
+We know that $(1+x)^p = 1+x^p\pmod{p}$, since $\binom{p}{i}\equiv 0\pmod{p}$ for all $1\leq i\leq p-1$. 
+
+Therefore, 
+\[[x^{pb}] (1+x)^{pa} \equiv [x^{pb}] (1+x^p)^a = \binom{a}{b}.\]
+\end{proof}
+
+Applying the lemma $k$ times, 
+\[\binom{mp^k}{p^k}\equiv m\pmod{p},\]
+but $(p,m)=1$, so we're done.
+\end{proof}
+
+Now we'll prove (2) and (3) together, by showing the following the following reformulation:
+\begin{theorem}
+\lemlabel 
+
+Let $H$ be a Sylow $p$-subgroup of $G$. Let $K$ be any $p$-subgroup. Then $K\subseteq gHg^{-1}$ for some $g\in G$.  
+\end{theorem}
+
+This is enough to show (2), because $K$ can be any Sylow $p$-subgroup. This is also enough to show (3), because $gHg^{-1}$ has the same size as $H$, so $gHg^{-1}$ is also a Sylow $p$-subgroup. Note that we know $H$ exists by (1). 
+
+\begin{proof}
+Consider the action of $K$ by left multiplication on the left cosets of $H$, i.e., $k\cdot gH = kgH$. It turns out that proving this lemma amounts to proving that there exists a fixed point in $K$.
+
+We know $p \nmid \vert G/H\vert = m$, and we also know that every orbit size divides $\vert K\vert = p^{\ell}$. Since the orbits partition $\vert G/H\vert$, there must be an orbit of size $1$, i.e., there exists a coset $gH$ such that $kgH = gH$ for all $k\in K$. 
+
+$kgH = gH\forall k\in K \iff g^{-1}kgH = H\forall k\in K \iff g^{-1}kg\in H\forall k\in K \iff g^{-1}Kg\subseteq H \iff K\subseteq gHg^{-1}$, so we're done.
+\end{proof}
+
+Finally, let's prove (4). 
+
+\begin{proof}
+Let $X$ be the set of Sylow $p$-subgroups. We want to show that $\vert X\vert \mid m$, and $\vert X\vert \equiv 1\pmod{p}$. By (2), $X$ is a single orbit under conjugation by $G$. 
+
+By the orbit-stabilizer theorem,
+\[p^km = \vert G\vert = \vert X\vert \vert N(H)\vert,\]
+for some $H\in X$, where the normalizer of $H$
+\[N(H) = \stab_G(H) = \{g\in G : gHg^{-1} = H\}.\]
+
+But $H$ is a subgroup of $N(H)\implies p^k = \vert H\vert \mid \vert N(H)\vert$. Thus, $m = \vert X\vert \cdot \left(\vert N(H)\vert / p^k\right)$, so $\vert X\vert$ divides $m$. 
+
+Now, consider the conjugation action of $H$ on $X$. There could be many orbits, since we are restricting our first action to elements of $H$, rather than all elements in $G$. All orbit sizes are powers of $p$, since they must divide $\vert H\vert$. Note that $H$ itself has an orbit of size $1$. We claim that this is the only orbit of size $1$, which is enough to imply $\vert X\vert \equiv 1\pmod{p}$.
+
+\begin{theorem}
+\lemlabel
+
+$\forall H, H'\in X$, $H\subseteq N(H')\iff H'=H$ $\iff\{H'\}$ is an $H$ orbit.  
+\end{theorem}
+\begin{proof}
+$H, H'$ are both Sylow $p$-subgroups of the normalizer of $H'$. By (2), there exists $n\in N(H')$ s.t. $H = nH'n^{-1}$. By definition, the normalizer fixes $H'$, so $H = H'$. 
+\end{proof}
+
+For any $H'\in X$ that has an orbit of size $1$, $H\subseteq N(H')$, since all elements in $H$ are fixed points for $H'$. Thus, the lemma implies $H'=H$, so we're done.
+\end{proof}
+
+\subsection{Addendum: simple groups with order $60$}
+
+Addendum: the following was not covered in lecture, but I wanted to include it anyways, because it feels like a solid way to wrap up our discussions on orbits, stabilizers, and the Sylow's Theorem. 
+
+\begin{theorem}
+\thmlabel 
+
+The only simple group with order $60$ is $A_5$. 
+\end{theorem}
+
+This proof extends the logic that we used in Theorem 20.7, where we proved that $A_5$ was simple.
+
+\begin{proof}
+Let $G$ be a simple group with order $60$. Our goal is to show that $G\cong A_5$. 
+
+First, suppose that $G$ acts non-trivially on some set $S$ with order less than order to $5$. By the same logic that we used in our proof of Theorem $20.7$, this implies an injective homomorphism from $G$ to the permutations of $S$, which is possible if and only if $\vert S\vert = 5$, in which case $G\cong A_5$. 
+
+Now, we go about constructing $S$. Assume for the sake of contradiction that $G\not\cong A_5$. By Sylow's Theorem, $n_2\mid 15\implies n_2\in\{1,3,5,15\}$. If $n_2=1$, then the unique Sylow $2$-subgroup is normal, which breaks the assumption that $G$ is simple. If $n_2=3$, or $n_2=5$, then the conjugation action from $G$ onto the set of Sylow $2$-subgroups is well-defined (Sylow groups are closed under conjugation, by Sylow's theorem), and certainly non-trivial. Thus, our argument in the previous paragraph breaks the assumption that $G\cong A_5$. We can use a similar line of reasoning to show that $n_3\equiv 1\pmod{3}$ and $n_3\mid 20 \implies n_3=10$. 
+
+Since all Sylow $3$-subgroups are cyclic, they all intersect trivially. Now, suppose all Sylow $2$-subgroups intersected trivially. If so, then the number of non-identity elements contained in the union of these subgroups is $3\cdot 15=45$. But the number of non-identity elements contained in the unions of the Sylow $3$-subgroups is $2\cdot 10 = 20$, in which case the total number of non-identity elements exceeds the size of $G$. 
+
+Therefore, there exists distinct $H$, $H'\in G$ which are Sylow $2$-subgroups and intersect non-trivially. Denote $G^*$ the subgroup of $G$ generated by the elements in $H\cup H'$. Since $H$ is a strict subgroup of $G^*$, $\vert G^*\vert = 4k$ for some $k > 1$. Since we also have $\vert G^*\vert \mid \vert G\vert$, $k\in \{3,5,15\}$. 
+
+Finally, let $x\in H\cap H'-\{1\}$. Since $\vert H\vert = \vert H'\vert = 4$, they are abelian, and $x$ commutes with everything in both groups. This implies that $x$ commutes with everything in $G^*$, so $\gen{x}$ is a normal subgroup in $G^*$. If $k=15$, then $G^*=G$, so this is not possible. Therefore, $k\in\{3,5\}$. In either case, the action from $G$ onto $G/G^*$ defined by $(g_1, g_2G^*)\mapsto g_1g_2G^*$ is well-defined and non-trivial, so we are done by our first paragraph.  
+\end{proof}

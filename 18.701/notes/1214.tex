@@ -1,0 +1,101 @@
+\section{December 14, 2022}
+
+This is the second of two post final-exam lectures just for fun. Last lecture
+
+\subsection{Representation Theory}
+
+Let $G$ be a group and $V$ a vector space over field $F$. 
+
+\begin{definition}
+\deflabel
+
+A \ac{representation} of $G$ on $V$ is an action of $G$ on $V$ such that for all $g\in G$, $v\mapsto gv$ is a linear operator on $v$.
+\end{definition}
+This is equivalent to a homomorphism $\rho : G\rightarrow GL(V) \subseteq \Perm(V)$, where $\rho(g)$ is our linear operator.
+
+Why do we care about group representations? 1) They have lots of structure. 2) They're good for linear things, and non-linear things can often be approximated by linear things, so group representations are useful. 
+
+Today assume $F = \CC$ and $\dim V < \infty$. $\Hom_G(V,W)$ is the set of linear transformations $TV\rightarrow W$ such that $T(gv) = gT(v)$ for all $g\in G, v\in V$. 
+
+It's really difficult to know at what point we've characterized all possible representations. This is an endeavor that is sort of pushing the limits of human knowledge right now. Let's look at some examples of representations. 
+
+\begin{example}
+\exlabel
+
+Trivial representation.
+\end{example}
+
+$V = \CC$ (one dimensional), and $gv=v$ for all $g\in G, v\in V$. 
+
+\begin{example}
+\exlabel
+
+$S_n$ acts on $\CC^n$ via permutation matrices. \newline
+$GL_n(\CC)$ acts on $\CC^n$ via matrix multiplication. 
+\end{example}
+
+\begin{example}
+\exlabel
+
+$S_n$ acts on $\CC$ by $\pi v = \text{sgn}(\pi) v$. 
+\end{example}
+
+\begin{example}
+\exlabel
+
+$C_m = \gen{g : g^m=1}$. For each $j$ s.t. $0\leq j < m$, $C_m$ acts on $\CC$ by $g\cdot v = e^{2\pi j/m}v\implies g^kv = e^{2\pi ijk/m}v$. 
+\end{example}
+
+\begin{example}
+\exlabel
+
+$S_3$ acts on $\CC^2$. 
+\end{example}
+
+We can view $S_3$ as symmetries of an equilateral triangle in $\RR^2$. So there exists a homomorphism
+\[\rho : S_3\rightarrow GL_2(\RR)\subseteq GL_2(\CC).\]
+In particular, this action also works on $\RR^2$.
+
+\begin{definition}
+\deflabel
+
+Given $V$, a $G$-representation, and subspace $W\subseteq V$, we say $W$ is an \ac{invariant subspace} if it is closed under $G$ by its action. In this case we call $W$ a subrepresentation.
+\end{definition}
+
+\begin{definition}
+\deflabel
+
+$V$ is \ac{irreducible} if $V\neq \{0\}$ and its only subrepresentations are $\{0\},V$. 
+\end{definition}
+
+Given $V,W$ are $G$-representations. Then $V\oplus W$ is also a $G$-representation given by $g(v,w) = (gv, gw)$. The subrepresentations of $V\oplus W$ must at least include $0\oplus 0$, $0\oplus W$, $V\oplus 0$, $V\oplus W$. 
+
+Is every (fin-diml) representation a direct sum of irreducibles up to isomorphism? In general, the answer is no. For most fields $F$, it won't work, and it also won't work for some infinite $G$ even if $F = \CC$. 
+
+Consider $\twotwo{1}{1}{0}{1}$, which is the usual $2\times 2$ matrix that ruins things because it is not diagonalizable. It turns out that this matrix also helps work as a counterexample to the previous paragraph. In particular, $\ZZ$ has a $2$-diml representation on $\CC^2$:
+\[n\cdot \vtwo{x}{y} = \twotwo{1}{1}{0}{1}^n \vtwo{x}{y} = \twotwo{1}{n}{0}{1} \vtwo{x}{y} = \vtwo{x+ny}{y},\]
+
+so the second coordinate is preserved and the first coordinate is linear in the second coordinate. What are the subrepresentations? 
+\[\{0\}, \left\{\vtwo{x}{0} : x\in \CC\right\}.\] 
+
+(Since the first coordinate is linear in the second coordinate, closure only works when the second coordinate is zero). So this representation is not irreducible. On the other hand, it also can't be the direct sum of any two representations, otherwise there would be more subrepresentations. 
+
+The fact that such a simple representation breaks things is discouraging, but it turns out that forcing $G$ to be finite and $F=\CC$ makes things nice again.
+
+\begin{theorem}
+\proplabel
+
+Given finite $G$ and $F=\CC$, then $V$ is necessarily a direct sum of irreducibles up to isomorphism, given that $\dim V < \infty$.
+\end{theorem}
+
+\begin{proof}
+Pick the $G$-invariant $\emptyform$ on $V$ by $\gen{gv, gw} = \gen{v,w}$ (we proved existence in Problem Set $10$). $W\subseteq V$ is a subrepresentation when $GW=W$. Now, $W$ being a subrepresentation implies $W^{\perp}$ is also a subrepresentation, since for any $v\in W^{\perp}$, $\gen{v,w} = 0\iff \gen{gv,gw}=0 \iff \gen{gv,w} = 0 \iff gv\in W^{\perp}$, which implies $V = W\oplus W^{\perp}$ is a direct sum of subrepresentations. We can keep applying this idea until $V$ is the direct sum of irreducibles. 
+\end{proof}
+
+The $G$-invariant that we used gives something called a \ac{unitary representation} for $G$, i.e., a representation $V$ with Hermetian inner product that is $G$-invariant. This is equivalent to a homomorphism $\rho : G\rightarrow U_n$. 
+
+\begin{theorem}
+\lemlabelname{Schur's Lemma}
+
+If $V,W$ are irreducible $G$-reps, then $\Hom_G(V,W) = \{0\}$ if $V\neq W$ and $\Hom_G(V,V) = \{\lambda I : \lambda \in \CC\}$. 
+\end{theorem}

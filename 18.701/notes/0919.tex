@@ -1,0 +1,136 @@
+\section{September 19, 2022}
+
+\subsection{Quotient Groups}
+
+Recall from last lecture: given group $G$ and subgroup $H\subseteq G$, 
+\[H\text{ normal}\iff gH=Hg\quad \forall g\iff gHg^{-1}=H \quad \forall g\iff ghg^{-1}\subseteq H \quad \forall g,h.\]
+
+The last equivalence follows, because the last statement implies $gH\subseteq Hg$, and you can flip $g$ and $g^{-1}$ to get $gH\supseteq Hg$, so $gH=Hg$. 
+
+We showed last time that all kernels are normal. Most subgroups aren't normal. Given $H$ normal, does there exist a homomorphism $f: G\rightarrow G'$ such that $\ker(f) = H$? The answer is yes, which we'll show today. 
+
+\begin{theorem}
+\claimlabel 
+
+If $f$ is surjective, then $G'$ is uniquely determined by $G,H$ up to isomorphism. 
+\end{theorem}
+
+The idea is that $G'$ is determined by left cosets of $H$ in $G$. If $H$ is the kernel, then $gH$ is the preimage of $f(g)$ in $G$. In other words, each coset corresponds to a unique element of $\im (f)$. 
+
+Here's how we can turn cosets into a group.
+\begin{definition}
+\deflabel
+
+Given cosets $C_1$ and $C_2$, let their product be 
+\[C_1C_2 = \{c_1c_2 : c_1\in C_1, c_2\in C_2\}.\]
+\end{definition}
+
+This way of multiplying cosets would be terrible if $H$ was not normal. Given that $H$ is normal, then
+\[g_1H\cdot g_2H = g_1(Hg_2)H = g_1g_2 H,\]
+which is also a coset. Note that the second equality only works when $H$ is normal. Since the cosets are closed under this multiplication, we can treat them like a group. 
+
+\begin{definition}
+\deflabel
+
+If $G$ is a group with normal subgroup $H$, the \ac{quotient group}
+\[G/H = \{gH : g\in G\},\]
+with coset multiplication. 
+\end{definition}
+
+This is a group:
+\begin{itemize}
+    \item Closure, since $H$ is normal
+    \item Associative, since $(g_1Hg_2H)g_3H = (g_1g_2g_3)H = g_1H(g_2Hg_3H)$.
+    \item Identity $H$
+    \item Inverse, $(gH)^{-1} = g^{-1}H$. 
+\end{itemize}
+
+\begin{definition}
+\deflabel
+
+The \ac{canonical map} $\pi : G\rightarrow G/H$ given by $g\mapsto gH$. 
+\end{definition}
+
+\begin{theorem}
+\thmlabel
+
+The canonical map $\pi$ is a surjective homomorphism with $\ker(\pi)=H$. 
+\end{theorem}
+
+\begin{proof}
+By definition, $\pi$ is surjective. $\pi$ is also a homomorphism: 
+\[\pi(g_1g_2) = g_1g_2(H) = g_1Hg_2H = \pi(g_1)\pi(g_2).\]
+
+Now $\pi(g)=H\iff gH=H\iff g\in H$, so $\ker(\pi)=H$. 
+\end{proof}
+
+\subsection{First Isomorphism Theorem}
+
+\begin{theorem}
+\thmlabelname{First Isomorphism Theorem}
+
+Given a surjective homomorphism $f : G\rightarrow G'$ with $\ker(f) = H$, there exists a unique isomorphism $\ov{f} : G/H\rightarrow G'$ s.t. $f = \ov{f}\circ \pi$. 
+\end{theorem}
+
+In other words, this diagram:
+\begin{center}
+\adjustbox{scale=1.1}{%
+    \begin{tikzcd}[column sep=tiny, row sep=small]
+        G \arrow[rr, "f"] \arrow[rdd, "\pi"'] & & G'\\
+        \\
+        & G/H\arrow[ruu, "\overline{f}"']
+    \end{tikzcd}
+}
+\end{center}
+
+is a commutative diagram (different paths in the diagram leads to the same mapping). 
+
+\begin{proof}
+$\ov{f}$ is uniquely determined by $\ov{f}(gH) = f(g)$. This implies that $\ov{f}$ is well-defined and injective, since $f(g_1H)=f(g_2H)\iff f(g_1)=f(g_2)\iff g_1H=g_2H$ ($H=\ker(f)$). $\ov{f}$ is surjective since $f$ is surjective.
+
+Also, $\ov{f}$ is a homomorphism since $f$ is a homomorphism: 
+\[\ov{f}(g_1Hg_2H) = f(g_1g_2)=f(g_1)f(g_2) = \ov{f}(g_1H)\ov{f}(g_2H),\]
+so $\ov{f}$ is an isomorphism and we're done. 
+\end{proof}
+
+This theorem gives us a nice way to break down any homomorphism $f: G\rightarrow H$ that exists between arbitrary groups $G$, $H$. Specifically, $f$ is surjective when you restrict the mapping to $\im(f)$, so $f$ is the composition of three mappings: 
+\begin{itemize}
+    \item quotient $\pi: G\rightarrow G/\ker(f)$
+    \item isomorphism $\ov{f}: G/\ker(f)\rightarrow \im(f)$
+    \item inclusion $\im(f)\rightarrow H$,
+\end{itemize}
+where the inclusion just maps everything to itself and takes care of the fact that the codomain of the original mapping was to all of $H$. 
+
+\begin{center}
+\adjustbox{scale=1.1}{%
+    \begin{tikzcd}[column sep=tiny, row sep=small]
+        & G \arrow[ldd, "\pi"'] \arrow[rr, "f"] \arrow[rdd, "f"'] & & H\\
+        \\
+        G/H \arrow[rr, "\ov{f}"'] & & \im(f)\arrow[ruu, "\text{inc}"'] &
+    \end{tikzcd}
+}
+\end{center}
+
+Here are some examples of the first isomorphism theorem giving useful equivalencies for common groups.  
+\begin{example}
+\exlabel 
+
+$\ZZ/n\ZZ\cong C_n$. 
+\end{example}
+
+Recall from last lecture the homomorphism $f: \ZZ\rightarrow C_n$ mapping $1$ to any generator. $\ker(f) = n\ZZ$, hence the correspondence between the cosets and $C_n$. 
+
+\begin{example}
+\exlabel
+
+$GL_n(\RR)/SL_n(\RR)\cong \RR^x$.
+\end{example}
+
+The homomorphism $\det : GL_n(\RR)\rightarrow \RR^x$ has kernel $\SL_n(\RR)$. 
+
+\begin{example}
+\exlabel
+
+$S_n/A_n\cong \{\pm 1\}\cong C_2$.
+\end{example}
+

@@ -1,0 +1,75 @@
+\section{September 26, 2022}
+
+\subsection{Vector spaces}
+
+Let $V$ be a vector space over field $F$. 
+
+\begin{definition}
+\deflabel
+
+A \ac{linear combination} of $v_1, v_2, \hdots, v_n\in V$ is any element $\lambda_1v_1+\hdots+\lambda_nv_n$ with $\lambda_i\in F$. 
+\end{definition}
+
+\begin{definition}
+\deflabel
+
+Let $S\subseteq V$ be a subset of $V$. Then $\Span{(s)} = \{\text{all lin. combs of }S\}$.
+\end{definition}
+
+This is the smallest subspace of $V$ containing $S$. 
+
+\begin{definition}
+\deflabel
+
+A subset $S\subseteq V$ is \ac{linearly dependent} if there exists coefficients $\lambda_i\in F$ for $s\in S$ such that $\sum_{s\in S}\lambda_s s = 0$ and the coefficients $\lambda_s$ are not all $0$ (and there are only finitely many non-zero coefficients). 
+\end{definition}
+
+We say that a subset $S\subseteq V$ is linearly independent when this quality does not hold. That is, $\sum_{s\in S}\lambda_s s = 0\iff \lambda_s=0\quad \forall s\in S$. 
+
+\begin{theorem}
+\proplabel
+
+If $v_1, \hdots, v_n$ are linearly independent, then $\lambda v_1+\hdots + \lambda_nv_n = \lambda_1'v_1+\hdots + \lambda_n'v_n\iff \lambda_i=\lambda_i'\quad \forall i$. 
+\end{theorem}
+
+\begin{proof}
+\[\sum_{i}v_i(\lambda_i-\lambda_i') = 0\iff \lambda_i=\lambda_i',\]
+by the definition of linear independence. 
+\end{proof}
+
+\begin{definition}
+\deflabel
+
+A \ac{basis} of $V$ is a subset $S$ that spans $V$ and is linearly independent. 
+\end{definition}
+
+The standard basis for $\RR^3$: 
+\[\left\{\vthree{1}{0}{0}, \vthree{0}{1}{0}, \vthree{0}{0}{1}\right\}.\]
+
+Let $V = \{f: \RR\rightarrow \CC \text{ s.t. } f''=-f\}.$ A basis that works is $\{\sin(x), \cos(x)\}$. So does $\{e^{ix}, e^{-ix}\}$. 
+
+\begin{definition}
+\deflabel
+
+$V$ is \ac{finite-dimensional} if it has a finite basis.
+\end{definition}
+
+\begin{theorem}
+\lemlabel
+
+If $v_1, \hdots, v_r$ spans $V$ and $w_1, \hdots, w_s$ are linearly independent, then $r\geq s$. 
+\end{theorem}
+
+\begin{proof}
+Write $w_j = \sum_{i=1}^rA_{ij}v_i$ for $A\in F^{r\times s}$. If $r<s$, then there exists nonzero $x\in F^s$ such that $Ax=0$. But then 
+\[\sum_{j=1}^sx_jw_j = \sum_{i=1}^r\left(\sum_{j=1}^sA_{ij}x_j\right)v_i = 0,\]
+which is a contradiction.
+\end{proof}
+
+\begin{definition}
+\deflabel
+
+If $V,W$ are are vector spaces over $F$, then a \ac{linear transformation} from $V$ to $W$ is a homomorphism $T:V\rightarrow W$ such that $T(v+v') = T(v)+T(v')$ and $T(\lambda v) = \lambda T(v)$ for all $v\in V, \lambda\in F$. 
+\end{definition}
+
+We call $T$ a \ac{linear operator} if $V=W$. Moreover, $T$ is an isomorphism if it's a bijection, in which case $T^{-1}$ is also a linear transformation. 

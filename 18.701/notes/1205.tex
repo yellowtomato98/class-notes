@@ -1,0 +1,261 @@
+\section{December 5, 2022}
+
+\subsection{Spheres of latitude are conjugacy classes in $SU_2$}
+
+Recall the two ways that we can formulate the special unitary group of $2\times 2$ matrices:
+
+\begin{definition}
+\deflabel
+\[SU_2 = \left\{\twotwo{\alpha}{\beta}{-\ov{\beta}}{\ov{\alpha}} : \alpha, \beta \in \CC, \norm{\alpha}^2 + \norm{\beta}^2=1\right\} = \{\gamma\in \HH : \norm{\gamma}=1\}.\]
+\end{definition}
+
+We can represent $SU_2$ as a $3$-sphere embedded in four dimensions. 
+
+\begin{center}
+\begin{asy}
+import graph; size(3cm); 
+pen dps = linewidth(0.7) + fontsize(10); defaultpen(dps);
+real yscaling = 0.15;
+real yscaling2 = 0.1;
+real lat = 35*pi/180; 
+real rlat = cos(lat);
+real v = sin(lat);
+
+path A = unitcircle;
+path eq_bot = arc((0,0), 1, 180, 360); 
+path eq_top = arc((0,0), 1, 0, 180); 
+path l1_bot = arc((0,0), rlat, 180, 360); 
+path l1_top = arc((0,0), rlat, 0, 180); 
+
+/* equator */
+draw(yscale(yscaling)*eq_bot);
+draw(yscale(yscaling)*eq_top, dotted);
+/* top lat line */
+draw(shift(0,v)*(yscale(yscaling)*l1_bot), grey);
+draw(shift(0,v)*(yscale(yscaling)*l1_top), dotted+grey);
+/* bottom lat line */
+draw(shift(0,-v)*(yscale(yscaling)*l1_bot), grey);
+draw(shift(0,-v)*(yscale(yscaling)*l1_top), dotted+grey);
+draw(A); 
+\end{asy}
+\end{center}
+
+We attempt to visualize the group in three-dimensions. In the above depiction, the north and south pole represents the identity and minus the identity. If we connect the identity and minus the identity and then cut the sphere with a plane perpendicular to this line, we get a two-sphere. This is represented in the above diagram by the horizontal lines of latitude.
+
+To make things precise, each sphere of latitude encompasses $\gamma$ with fixed real part. We can imagine that $1$ is the basis vector that differentiates each different sphere of latitude (hence the identity elements at the poles). Each sphere of latitude then represents all the quaternions you can get varying the other three dimensions. 
+
+It turns out that each sphere of latitude also represents a set of elements with fixed trace, since
+\[\gen{\gamma,1} = \re \gamma \ov{1} = \re \gamma = \frac{1}{2}\Tr \twotwo{\alpha}{\beta}{-\ov{\beta}}{\ov{\alpha}}.\]
+
+This is useful due to the following theorem:
+
+\begin{theorem}
+\thmlabel
+
+The conjugacy classes in $SU_2$ are \[\{A\in SU_2, \Tr A = c\}\] for $-2\leq c\leq 2$. 
+\end{theorem}
+
+\begin{proof}
+First, when we conjugate by any $B\in SU_2$, $\Tr(B^{-1}AB) = \Tr(BB^{-1}A) = \Tr(A)$, so trace is an invariant under conjugation. 
+
+For the opposite direction, suppose $\Tr A = c$. Note
+\[\Tr \twotwo{\alpha}{\beta}{-\ov{\beta}}{\ov{\alpha}} = 2\re \alpha.\] 
+Since $\norm{\alpha}^2\leq 1$, this forces $-2\leq c\leq 2$.
+
+The eigenvalues of $A$ are the roots of $x^2-cx+1$, since $A\in SU_2$, so $\lambda, \ov{\lambda}$ are uniquely determined by $c$. By the spectral theorem, there exists $B\in U_2$ such that 
+\[B^*AB = B^{-1}AB = \twotwo{\lambda}{0}{0}{\ov{\lambda}}.\] 
+This shows that $A$ is conjugate to the eigenvalue matrix in $U_2$, but not necessarily $SU_2$. To fix this, let $\det B = \delta$, and scale
+\[B' = B\twotwo{\delta^{-1/2}}{0}{0}{\delta^{-1/2}}.\] 
+Now $\det B' = 1$, so $B'\in SU_2$. Then,
+\[(B')^{-1}AB' = \twotwo{\delta^{1/2}}{0}{0}{\delta^{1/2}} B^{-1}AB\twotwo{\delta^{-1/2}}{0}{0}{\delta^{-1/2}} =\twotwo{\lambda}{0}{0}{\ov{\lambda}},\]
+so any $A$ with trace $c$ is conjugate to its uniquely determined eigenvalue matrix in $SU_2$, as desired. 
+\end{proof}
+
+\subsection{One-parameter subgroups in $SU_2$}
+
+How about lines of longitude? These turn out to be \ac{one-parameter subgroups}. We'll look at this quaternionically. 
+
+\begin{center}
+\begin{asy}
+import graph; size(5cm); 
+pen dps = linewidth(0.7) + fontsize(9); defaultpen(dps);
+real yscaling = 0.15;
+real yscaling2 = 0.65;
+
+path A = unitcircle;
+path arc_bot = arc((0,0), 1, 180, 360); 
+path arc_top = arc((0,0), 1, 0, 180); 
+path eq_bot = yscale(yscaling)*arc_bot;
+path eq_top = yscale(yscaling)*arc_top; 
+path l1_right = rotate(90)*yscale(yscaling)*arc_bot; 
+path l1_left = rotate(90)*yscale(yscaling)*arc_top; 
+path i_right = rotate(90)*yscale(yscaling2)*arc_bot; 
+path i_left = rotate(90)*yscale(yscaling2)*arc_top; 
+
+/* equator */
+draw(eq_bot, red);
+draw(eq_top, red+dotted);
+/* longitude */
+draw(l1_left, blue+dotted);
+draw(l1_right, blue);
+/* i longitude */
+draw(i_left, blue+dotted);
+draw(i_right, blue);
+draw(A); 
+
+/* dots and labels */
+pair [] i = intersectionpoints(eq_bot, i_right);
+pair [] mi = intersectionpoints(eq_top, i_left);
+dot(i[0], red+2);
+dot(mi[0], red+2);
+label("$i$", i[0], SE, red);
+label("$-i$", mi[0], SE, red);
+
+pair [] x = intersectionpoints(eq_bot, l1_right); 
+pair [] mx = intersectionpoints(eq_top, l1_left);
+dot(x[0], red+2);
+dot(mx[0], red+2);
+label("$\gamma$", x[0], SE*1.25, red);
+label("$-\gamma$", mx[0], SE, red);
+\end{asy}
+\end{center}
+
+The equator of our three-dimensional model of $SU_2$ contains all purely imaginary $\gamma\in \HH$ (i.e., $\re \gamma = 0$). By the previous theorem, this is a conjugacy class. Note that $\ihat$ lies on the equator, so consider the circle of longitude passing through $\pm \ihat, \pm 1$: 
+\[S = \{\cos{\theta} + i\sin{\theta} : \theta \in \RR\}.\]
+Note that $S\cong S^1\subseteq \CC$, so $S$ is actually just a one-parameter subgroup of the usual complex numbers. If we were to substitute $\ihat$ with any other basis vector, it doesn't matter, we'll just get some space generated by two basis vectors, which is always the normal complex numbers. 
+
+For arbitrary $\gamma$ with $\re \gamma = 0$, we'll always get something conjugate to $S$, which is a subgroup of $\CC$. In this case, our ``one paramter'' generating our line of longitude is $\gamma$. 
+
+One important faulty diagram moment: $S$ is a $1$-sphere (as are all the other lines of longitude), so it is just a normal circle, like how it looks on the diagram. On the other hand, our red equator is a $2$-sphere of latitude. Even though they look the same in the diagram, they're not, which is just something we have to deal with given that we can't draw four-dimensional pictures. 
+
+\subsection{Normal subgroups of $SU_2$ with more geometry}
+
+\begin{theorem}
+\thmlabel
+
+The only normal subgroups of $SU_2$ are $\{1\}, \{\pm 1\}$, $SU_2$. 
+\end{theorem}
+
+\begin{theorem}
+\corlabel
+
+$SU_2/\{\pm 1\} \cong SO_3$ is simple. 
+\end{theorem}
+
+The corollary follows by the double-covering that we discussed last lecture. In particular, because there is a surjective homomorphism $\gamma : SU_2\rightarrow SO_3$ with kernel $\{\pm 1\}$, the correspondence theorem gives a bijective mapping between normal subgroups of $SU_2$ containing $\{\pm 1\}$ and normal subgroups of $SO_3$. Since the only such normal subgroups of $SU_2$ are $\{\pm 1\}$ and $SU_2$, $SO_3$ is simple. 
+
+Now, we prove the main theorem.  
+
+\begin{proof}
+Let $G$ be a normal subgroup in $SU_2$. Then $G$ is some union of conjugacy classes. The identities are point conjugacy classes, so $\{\pm 1\}$ works on its own. Now, if $G\not\subseteq \{\pm 1\}$, then $G$ contains some other conjugacy class $S$. 
+
+\begin{center}
+\begin{asy}
+import graph; size(6cm); 
+pen dps = linewidth(0.7) + fontsize(13); defaultpen(dps);
+real yscaling = 0.15;
+real yscaling2 = 0.45;
+real yscaling3 = 0.15;
+real theta = 165*pi/180;
+real thetad = theta*180/pi;
+real r = 0.5*sqrt((1-sin(theta))^2+(cos(theta))^2);
+real op = 0.15;
+
+path A = unitcircle;
+path arc_bot = arc((0,0), 1, 180, 360); 
+path arc_top = yscale(-1)*rotate(180)*arc((0,0), 1, 0, 180); 
+path eq_bot = yscale(yscaling)*arc_bot;
+path eq_top = yscale(yscaling)*arc_top; 
+path l1_right = rotate(90)*yscale(yscaling2)*arc_bot; 
+path l1_left = rotate(90)*yscale(yscaling2)*arc_top; 
+path l2_bot = shift(0,sin(theta))*yscale(yscaling)*scale(-cos(theta))*arc_bot;
+path l2_top = shift(0,sin(theta))*yscale(yscaling)*scale(-cos(theta))*arc_top;
+
+/* setting up sidways circle */
+pair B = dir(thetad);
+pair M = 0.5*(B+(0,1));
+path C_bot = shift(M)*scale(r)*rotate(0.5*(thetad-90))*yscale(yscaling3)*arc_bot;
+path C_top = shift(M)*scale(r)*rotate(0.5*(thetad-90))*yscale(yscaling3*0.85)*arc_top;
+
+/* equator */
+draw(eq_bot, black);
+draw(eq_top, black+dotted);
+/* longitude */
+draw(l1_left, blue+dotted);
+draw(l1_right, blue);
+/* latitude */
+/* sideways circle */
+draw(C_bot, purple);
+draw(C_top, purple+dotted);
+/* sphere */
+draw(A);
+
+/* filling spherical caps */
+path D = arc((0,0), 1, 180-thetad, thetad);
+path P = D--l2_bot--cycle;
+fill(P, purple+opacity(op));
+path P = D--l2_top--cycle;
+fill(P, purple+opacity(op));
+
+/* dots and labels */
+dot((0,1), black+2);
+dot((0,-1), black+2);
+label("1", (0,1), N);
+label("-1", (0, -1), S);
+label(rotate(0.5*(thetad-90))*"$\gamma^{-1}S$", M, SE*3);
+\end{asy} 
+\hspace{1cm}
+\begin{asy}
+import graph; size(6cm); 
+pen dps = linewidth(0.7) + fontsize(13); defaultpen(dps);
+real theta = 165*pi/180;
+real thetad = theta*180/pi;
+real op = 0.15;
+
+path A = arc((0,0), 1, 180-thetad, thetad);
+path B = arc((0,0), 1, 180-thetad, thetad-360);
+draw(A, purple); 
+draw(B, blue);
+fill(dir(180-thetad)--A--dir(thetad)--cycle, purple+opacity(op));
+
+/* dots and labels */
+dot((0,1), black+2);
+dot((0,-1), black+2);
+label("1", (0,1), N);
+label("-1", (0, -1), S);
+draw((0,sin(theta)-0.1)--(0,-0.25), ArcArrow(SimpleHead));
+\end{asy}
+\end{center}
+% draw(l2_bot, red+dotted+linetype("2 2"));
+% draw(l2_top, red+dotted+linetype("2 2"));
+
+Choose some $\gamma\in S$. Then $\gamma^{-1}S\subseteq G$, since the group is closed under multiplication. Note that $\gamma^{-1}S$ is a rotation of $S$ (i.e., a $2$-sphere) which also contains the identity. By continuity, this implies that $G$ contains the conjugacy classes of all elements close to the identity. But now, if we can take any one-parameter subgroup, we can use the elements close to the identity to generate the rest of the subgroup by the normal group law. Since each one-parameter subgroup is a line of longitude, so-to-speak, it contains at least one element from every conjugacy class, so $G = SU_2$, as desired. 
+\end{proof}
+
+\begin{definition}
+\deflabel
+
+$G\subseteq \GL_n(\CC)$. A \ac{one-parameter subgroup} of $G$ is a homomorphism $\RR\rightarrow G$ that's differentiable as a function from $\RR$ to $\CC^{n\times n}$. 
+\end{definition}
+
+$\varphi: \RR\rightarrow G$ is a homomorphism and its differentiable. $\varphi(s+t) = \varphi(s)\varphi(t)$. Then $\varphi'(s+t) = \varphi'(s)\varphi(t)$, differentiating with respect to $s$. If we let $s=0$, then $\varphi'(t) = \varphi'(0)\varphi(t) = A\varphi(t)$. This is a differential equation with solution $\varphi(t) = e^{At} = I + At + A^2t^2/2! + \hdots$. This is the unique solution with $\varphi(0) = I$. 
+
+$e^{S+T} = e^Se^T$ if $TS=ST$. Any two multiples of $A$ commute with each other, so this gives a homomorphism. 
+
+\[A\siff \varphi'(0) \siff \text{tangent vector to }G\text{ at 1}.\]
+
+\begin{example}
+\exlabel
+
+Examples.
+\end{example}
+
+$G = GL_n(\CC)\rightarrow A\in \CC^{n\times n}$
+$GL_n(\RR)\rightarrow A\in \RR^{n\times n}$
+$SL_n(\RR)\rightarrow A\in \RR^{n\times n}, \Tr A = 0$. 
+$\det e^{A} = e^{\Tr A}$. 
+
+$O_n(\RR)\rightarrow e^{sA}e^{sA^t}=I$. 
+
+This group gives something called the Lie algebra of Lie group $G$. 
+

@@ -1,0 +1,52 @@
+\section{December 12, 2022}
+
+This is the first of two post final-exam lectures just for fun. (Post-lecture note: I got a little lost so the notes here aren't great)
+
+\subsection{Tensors}
+
+Let $V$ be a finite-dimensional vector space over field $F$. Then $\Hom_F(V,W)$ is defined as the space of all $F$-linear transformations from $V$ to $W$. 
+
+\begin{definition}
+\deflabel
+
+The \ac{dual} $V^* = \Hom_F(V,F)$.
+\end{definition}
+
+If $\dim V=n$, then $\dim V^*=n$. $V\cong V^*$. 
+
+Given non-degenerate form $\emptyform$ on $V$, gives an isomorphism $V\rightarrow V^*$. $\overset{\psi}{v}\mapsto\overset{\psi}{f}$. $f(w) = \gen{v,w}$ for $w\in V$. Conversely, given $\varphi : V\rightarrow V^*$, $\gen{v,w} = \varphi(v)(w)$ is a non-degenerate bilinear form.  
+
+$V^{**}\cong V$ is canonically isomorphic to $V$. $V\rightarrow V^{**}$ given by $\overset{\psi}{v}\mapsto \overset{\psi}{ev_v}$, with $ev_v(f) = f(v)$ if $f\in V^*$.
+
+\begin{definition}
+\deflabel
+
+The \ac{tensor product} $V\otimes W$ (also sometimes notated $V\otimes_F W$, if you wish to emphasize the field) is the vector space spanned by $v\otimes w$ with $v\in V$, $w\in W$. All such $v\otimes w$ are called \ac{pure tensors}. $\otimes$ is bilinear and obeys the following operations:
+\begin{itemize}
+\item $(v+v')\otimes w = v\otimes w + v'\otimes w$
+\item $v\otimes (w+w') = v\otimes w + v\otimes w'$
+\item $(\alpha v)\otimes w = \alpha (v\otimes w) = v\otimes (\alpha w)$. 
+\end{itemize}
+\end{definition}
+Tensors is what you get when you impose these relations and no others. 
+
+We're interested in: bilinear maps 
+\[V\times W\rightarrow U,\]
+which are linear in each coordinate. Intuition: tensors abstract this. 
+
+Consider the map $\varphi: V\times W\rightarrow V\otimes W$ with $(v,w)\mapsto v\otimes w$. $\varphi$ is bilinear, because this is how the tensor product is defined. Then, the map $f: V\times W\rightarrow U$ is bilinear if and only if there exists $\ov{f} : V\otimes W\rightarrow U$ linear such that $\ov{f}\circ \varphi = f$. 
+
+\begin{center}
+\begin{tikzcd}[column sep=tiny, row sep=small]
+    V\times W \arrow[rr] \arrow[rdd, "\varphi"'] & & U\\
+    \\
+    & V\otimes W\hspace{0.2cm}\arrow[ruu, "\overline{f}"']
+\end{tikzcd}
+\end{center}
+
+$\dim V\otimes W = (\dim V)(\dim W)$. The idea is that if $v_1, \hdots, v_n$ is the basis of $V$, and $w_1, \hdots, w_m$ is a basis of $W$, then $v_i\otimes w_j$ is a basis of $V\otimes W$. 
+
+$\dim V = n$. An order $2$ tensor is an element of $V\otimes V$, $V\otimes V^*$, or $V^*\otimes V^*$ corresponding to type $(2,0),(1,1),(0,2)$, respectively. In general, for order $r+s$, a type $(r,s)$ is given by $V^{\otimes r}\otimes (V^*)^{\otimes s}$. We can think of $V^*$ as inputs, and $V$ as outputs. 
+
+
+

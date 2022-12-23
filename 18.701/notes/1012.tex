@@ -1,0 +1,216 @@
+\section{October 12, 2022}
+
+\subsection{Affine Transformations}
+
+Review from last lecture: $M_n$ is the set of all isometries (rigid motions) of $\RR^n$, given by 
+\[M_n = \{x\mapsto Ax+b: A\in O_n(\RR), b\in \RR^n\}.\]
+
+\begin{example}
+\exlabel
+
+What happens when we compose isometries?
+\end{example}
+
+Composing $x\mapsto A'x+b'$ and $x\mapsto Ax+b$ gives
+
+\[A'(Ax+b) + b' = A'Ax + A'b+b'.\]
+
+In particular, $\pi : M_n\rightarrow O_n(\RR)$ given by $(x\mapsto Ax+b)\mapsto A$ is a homomorphism, where $\ker(\pi)$ is given by the set of translations. It is also worth noting that $M_n\not\cong O_n(\RR)\times \RR^n$, since the translation is not completely symmetric. If the translation term was $b+b'$ instead of $A'b+b'$, then it would be a direct product. Instead, this is an example of a \ac{semi-direct product}. 
+
+\begin{definition}
+\deflabel
+
+An \ac{affine transformation} is a mapping of a plane given by $x\mapsto Ax+b$. This generalizes the linear transformation, which requires $b=0$. 
+\end{definition}
+
+Linear transformations preserve linearity. We can make an analogous statement for affine transformations.
+
+\begin{theorem}
+\proplabel
+
+Affine transformations preserve weighted averages.
+\end{theorem}
+
+\begin{proof}
+Let $T(x) = Ax+b$ be an affine transformation. 
+
+Then, 
+\begin{align*}
+    T(\lambda_1x_1 + \hdots + \lambda_nx_n) &= \lambda_1Ax_1 + \hdots + \lambda_nAx_n + b \\
+    &= \lambda_1 T(x_1) + \hdots + \lambda_n T(x_n) + (1-\lambda_1 - \hdots - \lambda_n)b \\
+    &= \lambda_1 T(x_1) + \hdots + \lambda_n T(x_n) \iff \sum \lambda_i = 1.
+\end{align*}
+\end{proof}
+
+\subsection{Symmetry Groups}
+
+\begin{definition}
+\deflabel
+
+Given any subset $S\subseteq R^n$, its \ac{symmetry group} is given by the subset of $M_n$
+\[\{T\in M_n : TS=S\}.\]
+\end{definition}
+
+\begin{example}
+\exlabel 
+
+Here are some general examples of symmetry groups. 
+\begin{itemize}
+    \item The symmetry group of $\RR^n$ is $M_n$ itself.
+    \item The symmetry group of $\{0\}$ is $O_n(\RR)$
+    \item The symmetry group of any sphere centered at $0$ is $O_n(\RR)$. 
+\end{itemize}
+\end{example}
+
+\begin{example}
+\exlabel
+
+Let's look at some more specific examples of symmetry groups. 
+\end{example}
+
+\begin{center}
+\begin{asy}
+import graph; size(2cm); 
+pen dps = linewidth(0.7) + fontsize(10); defaultpen(dps);
+pen dotstyle = 1+black;
+real scale = 1.75;
+
+pair O = (0,0);
+pair A = dir(0);
+pair pA = dir(60);
+
+draw(O--A);
+draw(A--pA);
+draw(O--pA);
+\end{asy}
+\end{center}
+
+This triangle has six symmetries, namely, $D_3$.
+
+\begin{center}
+\begin{asy}
+import graph; size(2cm); 
+pen dps = linewidth(0.7) + fontsize(10); defaultpen(dps);
+pen dotstyle = 1+black;
+real scale = 1.75;
+real sc2 = 0.4;
+
+pair O = (0,0);
+pair X = dir(-60)*sc2;
+pair A = dir(0);
+pair Y = A+dir(60)*sc2;
+pair pA = dir(60);
+pair Z = pA + dir(180)*sc2;
+
+draw(O--A);
+draw(A--pA);
+draw(O--pA);
+draw(O--X);
+draw(A--Y);
+draw(pA--Z);
+\end{asy}
+\end{center}
+
+This triangle only has three symmetries, namely, $C_3$. This triangle cannot be equivalent to itself under any isometry which reverses the orientation of the plane (e.g., any isometry that includes a single reflection), so we say that it is \ac{chiral}.
+
+\begin{center}
+\begin{asy}
+import graph; size(2cm); 
+pen dps = linewidth(0.7) + fontsize(10); defaultpen(dps);
+pen crust = RGB(208,184,157);
+pen beef = RGB(138, 66, 14);
+pen dotstyle = 1+black;
+real scale = 1.75;
+real sc2 = 0.4;
+
+path A = unitcircle;
+filldraw(A, red+opacity(0.1), crust);
+path B = scale(0.1)*unitcircle;
+
+pair X1 = (-0.25, 0.5);
+pair X2 = (-0.25, 0);
+pair X3 = (-0.25, -0.5);
+pair X4 = (-0.67, 0.25);
+pair X5 = (-0.67, -0.25);
+filldraw(shift(X1)*B, beef, beef);
+filldraw(shift(X2)*B, beef, beef);
+filldraw(shift(X3)*B, beef, beef);
+filldraw(shift(X4)*B, beef, beef);
+filldraw(shift(X5)*B, beef, beef);
+\end{asy}
+\end{center}
+
+Prof. Cohn tells us a story about ``none pizza with left beef". This pizza has nothing on it (including cheese or sauce), except for beef on the left half of the pizza. While it might initially seem like the pizza is chiral, it's actually not, since a reflection from any axis $\theta$ from the vertical amounts to a rotation by $180-2\theta$. The symmetry group here is $C_1$. 
+% path B = scale(0.1)*unitcircle;
+% filldraw(B, beef, red);
+% draw(B);
+
+\subsection{Classifying rigid motions of $\RR^2$}
+
+Rigid motions of $\RR^2$ are transformations that preserve distance, so classifying the rigid motions amounts to classifying isometries. All isometries are of the form $x\mapsto Ax+b$ where $A\in O_2(\RR)$, i.e., $\det A = \pm 1$ and $A$ is either orientation preserving or reversing. 
+
+First consider when $A$ is orientation preserving. 
+\begin{itemize}
+    \item $A=I_2$. In this case $x\mapsto x+b$ is a \ac{translation}. 
+    \item $A\in SO_2(\RR)$, $A\neq I_2$. In this case, $A$ has eigenvalues $e^{\pm i\theta}\neq 1$, so $A-I_2$ is invertible. If we let $x_0 = (A-I_2)^{-1}b$, then 
+    \[A(x+x_0)-x_0 = Ax+A(A-I_2)^{-1}b-(A-I_2)^{-1}b = Ax+b,\]
+    so $x\mapsto Ax+b$ is conjugate to $A$ under translation by $x_0$. In other words, this is a \ac{rotation} about $x_0$. 
+\end{itemize}
+
+Now consider when $A$ is orientation reversing. 
+\begin{itemize}
+    \item Let $A$ be a reflection satisfying $Ab = -b$, i.e., $b$ is perpendicular to the reflection line. Then 
+    \[Ax+b = A\left(x-\frac{b}{2}\right) + \frac{b}{2},\]
+    so $x\mapsto Ax+b$ is conjugate to the \ac{reflection} $A$ under translation by $-b/2$. 
+    \item Let $A$ be a reflection with $Ab\neq -b$. 
+\begin{center}
+\begin{asy}
+import graph; size(5cm); 
+pen dps = linewidth(0.7) + fontsize(9); defaultpen(dps);
+pen dotstyle = 2+black;
+real scale = 2.25;
+DefaultHead.size=new real(pen p=currentpen) {return 4bp;};
+
+pair O = (0,0);
+pair A = scale(1.5)*dir(45);
+pair C = scale(0.5)*dir(225);
+pair b = dir(20);
+pair Ab = dir(70);
+
+draw(O--A, Arrow);
+draw(O--C, Arrow);
+draw(O--b, Arrow);
+draw(O--Ab, Arrow);
+draw(Ab--b, Arrow);
+
+/* dot(O,dotstyle); */ 
+label("$Ab$", Ab, W*scale);
+label("$b$", b, S*scale);
+label("$(Ab+b)/2$", A, NE*scale);
+label("$(b-Ab)/2$", b, NE*scale);
+\end{asy}
+\end{center}
+
+Then 
+\[Ax+b = \left(Ax+\frac{b-Ab}{2}\right) + \frac{b+Ab}{2}.\]
+We know that $(b-Ab)/2$ is perpendicular to the reflection line, while $(b+Ab)/2$ is parallel to the reflection line (refer to the diagram). Therefore, the first term is conjugate to the reflection $A$ by our previous case, while the second term is a translation parallel to our reflection line. Together, this gives us a \ac{glide reflection}.
+\end{itemize}
+
+\subsection{Finite Subgroups of $O_2(\RR)$}
+
+Now that we have classified all elements in $M_2$, lets look at some examples of subgroups, starting with the finite subgroups of $O_2(\RR)$. 
+
+\begin{example}
+\exlabel
+
+The cyclic group $C_n = \gen{g}$. 
+\end{example}
+The cyclic group is the group of rotations by $2\pi k/n$. This group forms the rotational symmetries of an $n$-gon. 
+
+\begin{example}
+\exlabel
+
+The dihedral group $D_n = \gen{g,h}$. 
+\end{example}
+
+The dihedral group is the group of rotations by $2\pi k/n$ with reflections; i.e., multiplication satisfies $g^n = 1$, $h^2=1$, and the reflection law $hgh=g^{-1}$. This group forms the full symmetry group of an $n$-gon. Sometimes, the dihedral group is labelled $D_{2n}$, since its order is $2n$. 

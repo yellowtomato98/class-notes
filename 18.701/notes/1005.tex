@@ -1,0 +1,129 @@
+\section{October 5, 2022}
+
+\subsection{Cauchy-Schwarz}
+
+\begin{definition}
+\deflabel
+
+The \ac{inner product} or \ac{dot product} of any two vectors $x,y\in \RR^n$ is given by 
+\[\gen{x,y} = x\cdot y = x^ty = x_1y_1+\hdots+x_ny_n\]
+\end{definition}
+
+Using our definition of inner product (does not necessarily have to be a dot product), we can define a few more quantities. 
+
+\begin{definition}
+\deflabel
+
+The \ac{length} of a vector $x$ is given by $\vert x\vert = \sqrt{\gen{x,x}}$.
+\end{definition}
+
+\begin{definition}
+\deflabel
+
+The \ac{distance} between two vectors $x,y$ is given by $\vert x-y\vert$. 
+\end{definition}
+
+Like the usual dot product, we would like if $\gen{x,y} = \vert x\vert \vert y\vert \cos{\theta}$, for some meaning of $\theta$ in our vector space. What happens if we view this definition as an angular measurement in and of itself?
+
+Well, this should work as long as we don't have any domain errors. If $x,y\neq 0$, is it true that 
+\[\left\vert\frac{\gen{x,y}}{\vert x\vert\vert y\vert}\right\vert \leq 1?\]
+The answer is yes!
+
+\begin{theorem}
+\thmlabelname{Cauchy-Schwarz Inequality}
+
+\[\vert \gen{x,y}\vert \leq \vert x\vert \vert y\vert \quad \forall x,y\in \RR^n\]
+\end{theorem}
+
+\begin{proof}
+We start with 
+\[\vert x-\lambda y\vert^2 \geq 0\quad \forall \lambda \in \RR.\]
+
+Expanding, 
+\begin{align*}
+    \vert x-\lambda y\vert^2 &= \gen{x-\lambda y, x-\lambda y} \\
+    &= \vert x\vert^2 - 2\lambda \gen{x,y} + \lambda^2\vert y\vert^2 \geq 0.
+\end{align*}
+
+Taking the discriminant implies the result. 
+\end{proof}
+
+\subsection{Orthogonal Matrices}
+
+\begin{definition}
+\deflabel
+
+A basis $x_1, x_2, \hdots, x_n\in \RR^n$ is \ac{orthogonal} if $\gen{x_i, y_j} = 0$ for $i\neq j$, and \ac{orthonormal} if it additionally satisfies $\vert x_i\vert = 1\quad \forall i$. 
+\end{definition}
+
+\begin{definition}
+\deflabel
+
+A matrix $A\in \RR^{n\times n}$ is \ac{orthogonal} if 
+\[\gen{Ax, Ay} = \gen{x,y}\quad \forall x,y\in \RR^n\]
+\end{definition}
+
+\begin{theorem}
+\thmlabel
+
+For $A\in \RR^{n\times n}$, the following are equivalent: 
+\begin{itemize}
+    \item [(1)] $A$ is orthogonal
+    \item [(2)] $\vert Ax\vert = \vert x\vert\quad \forall x\in \RR^n$ 
+    \item [(3)] $A^tA = I_n$
+    \item [(4)] The columns of $A$ are orthonormal. 
+    \item [(5)] The rows of $A$ are orthonormal. 
+\end{itemize}
+\end{theorem}
+
+Fun fact: IOAA 2022 DA Q2 was basically just (3), Andrew didn't know linear algebra so he mindlessly bashed out inverses and wasted all his time, sad. 
+
+\begin{proof}
+$(1)\implies (2)$: When we set $x=y$ in the definition of orthogonality, $\gen{Ax, Ax} = \gen{x,x}\iff \vert Ax\vert^2 = \vert x\vert^2$. 
+
+$(2)\implies (1)$: We can express the inner product in terms of length (this technique is called \ac{polarization}), by 
+\[\gen{x,y} = \frac{\vert x+y\vert^2 - \vert x\vert^2 - \vert y\vert^2}{2}.\]
+Therefore, if lengths are preserved, then so are inner products. 
+
+$(3)\implies (1)$: We have $\gen{x,y} = x^ty$. On the other hand, $\gen{Ax, Ay} = (Ax)^tAy = x^tA^tAy = x^ty\iff A^tA = I_n$. 
+
+$(1)\implies (3)$: Let $e_1, \hdots, e_n$ be the standard basis. Then \[\gen{e_i, e_j} = \delta_{ij} = \begin{cases}1 & i=j \\ 0 & i\neq j\end{cases}.\]
+
+($\delta_{ij}$ is called the \ac{kronecker delta}.) So we have 
+\[\delta_{ij} = \gen{Ae_i, Ae_j} = e_i^t(A^tA)e_j = (A^tA)_{ij},\]
+thus $A^tA$ is the identity.
+
+$(3)\iff (4)$: 
+\[A^t = \begin{pmatrix}
+    \text{---} & a_1 & \text{---} \\
+     & \vdots & \\
+    \text{---} & a_2 & \text{---}
+\end{pmatrix}, \quad A = \begin{pmatrix}
+    \vert & & \vert \\
+    a_1   & \hdots & a_n   \\
+    \vert & & \vert
+\end{pmatrix}\]
+$(A^tA)_{ij} = a_i^ta_j$, so $A^tA = I_n\iff a_i^ta_j = \delta_{ij}\iff a_1, a_2, \hdots, a_n$ are orthonormal. 
+
+The proof for $(3)\iff (5)$ is analogous, so we are done. 
+\end{proof}
+
+\begin{definition}
+\deflabel
+
+The \ac{orthogonal group}
+\[O_n(\RR) = \{A\in \RR^{n\times n} : A^tA = I_n\}\subset GL_n(\RR)\]
+\end{definition}
+
+\begin{definition}
+\deflabel
+
+The \ac{special orthogonal group}
+\[SO_n(\RR) = \{A \in O_n(\RR) : \det A = 1\}\]
+\end{definition}
+
+Note: $\det (A^t)\det (A) = 1 \implies \det A = \pm 1$, so $SO_n(\RR)$ has index $2$ in $O_n(\RR)$. 
+
+
+
+

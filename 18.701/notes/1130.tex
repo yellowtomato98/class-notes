@@ -1,0 +1,132 @@
+\section{November 30, 2022}
+
+\subsection{Spheres}
+
+Recall from last time the definition for an $(n-1)$-sphere:
+\begin{definition}
+\deflabel
+\[S^{n-1} = \{s\in \RR^n : \vert x\vert =1\}.\]
+\end{definition}
+
+The naming convention is due to the fact that a sphere is an $(n-1)$ dimensional surface embedded in $n$ dimensions. If we allow $\vert x\vert \leq 1$, instead of $\vert x\vert = 1$, then we call this a \ac{ball}, where the volume inside the sphere is filled as well. 
+
+How does volume work in $\RR^n$? Consider a ball with radius $r$, and another ball centered at the same point with radius $0.9r$. The ratio of the volumes of the two balls is $(0.9r)^n/r^n = 0.9^n$, which tends towards $0$ as $n\rightarrow \infty$. This tells us that in higher dimensions, the volume of a ball is concentrated near its boundary. The rate at which volume packs into a shell near the boundary with increasing $n$ is given by
+\[\lim_{n\rightarrow \infty}\left(1-\frac{c}{n}\right)^n=e^{-c},\]
+so the same amount of volume is packed into a shell with width $c/n$ as $n$ grows large.
+
+\subsection{Special unitary group $SU_2$}
+
+Recall the definition for the special unitary group $SU_2$:
+
+\begin{definition}
+\deflabel
+\[SU_2 = \{A\in \CC^{2\times 2} : A^*A = I_2, \det{A}=1\}.\]
+\end{definition}
+
+This may seem unrelated to $SO_3$, but it is ultimately helpful to understand, and we'll get back to $SO_3$ later. Let's try to characterize elements of $SU_2$. Given
+\[A = \twotwo{\alpha}{\beta}{\gamma}{\delta}\in SU_2,\]
+we know $\alpha\delta-\beta\gamma=1$, and
+\[\twotwo{\overline{\alpha}}{\overline{\gamma}}{\overline{\beta}}{\overline{\delta}} = A^* = A^{-1} = \twotwo{\delta}{-\beta}{-\gamma}{\alpha}.\]
+Therefore, $\overline{\alpha} = \delta$, and $\overline{\delta} = -\beta$, so 
+\[SU_2 = \left\{\twotwo{\alpha}{\beta}{-\overline{\beta}}{\overline{\alpha}} : \alpha,\beta \in \CC, \vert \alpha\vert^2+\vert \beta\vert^2 = 1.\right\}\]
+
+Now, each complex number has two degrees of freedom:
+\begin{align*}
+    \alpha &= w+ix \\
+    \beta &= y+iz,
+\end{align*}
+for $w,x,y,z\in \RR$. This is four-dimensional, but we also have one more restriction: $\vert \alpha\vert^2 + \vert \beta\vert^2 = 1\implies w^2+x^2+y^2+z^2=1$. So, we end up with a $3$-sphere (with three degrees of freedom): 
+\[S^3 = \{(w,x,y,z)\in \RR^4 : w^2+x^2+y^2+z^2=1\}.\]
+
+\begin{example}
+\exlabel
+
+When is $S^k$ a group? 
+\end{example}
+
+$S^0 = \{\pm 1\}$ is a group. We showed last lecture that $S^1$ is topologically equivalent to $SO_2$. The group representation is given by $S^1 = \{z\in \CC : \vert z\vert = 1\}$, which is just the unit circle. We've also just shown that $S^3$ is topologically equivalent to $SU_2$. It turns out that these are the only three examples. Now, how would we write $S^3$ as a group?
+
+\subsection{Quaternions}
+
+\begin{definition}
+\deflabel
+
+The \ac{quaternions} are a vector space
+\[\HH = \RR \oplus \RR_i \oplus \RR_j \oplus \RR_k,\]
+
+i.e., with basis elements $1,\ihat,\jhat,\khat$. The interaction between each basis element is given by $\ihat^2=\jhat^2=\khat^2=-1$, and 
+\begin{align*}
+    \ihat\jhat = \khat = -\jhat\ihat \\ 
+    \jhat\khat = \ihat = -\khat\jhat \\ 
+    \khat\ihat = \jhat = -\ihat\khat.
+\end{align*}
+\end{definition}
+
+The $\HH$ stands for \ac{Hamilton}, after William Rowan Hamilton, who first described quaternions. 
+
+If $\alpha = w+x\ihat+y\jhat+z\khat$, then its length is $\vert\alpha\vert = \sqrt{x^2+y^2+z^2+w^2}$. It turns out that $S^3$ is just the group of unit quaternions, i.e.,
+\[S^3 = \{\alpha\in \HH : \vert\alpha\vert=1\}.\]
+
+Given $\alpha = w+ix$, $\beta = y+iz$,
+\begin{align*}
+    \twotwo{\alpha}{\beta}{-\overline{\beta}}{-\overline{\alpha}} = w\cdot \twotwo{1}{0}{0}{1}+x\cdot \twotwo{i}{0}{0}{-i}+y\cdot \twotwo{0}{1}{-1}{0}+z\cdot \twotwo{0}{i}{i}{0}
+\end{align*}
+for any element in $SU_2$. We can create a correspondence 
+\[(1, \ihat, \jhat, \khat) \siff \left(\twotwo{1}{0}{0}{1}, \twotwo{i}{0}{0}{-i}, \twotwo{0}{1}{-1}{0}, \twotwo{0}{i}{i}{0}\right)\]
+so that $SU_2$ is just $w+x\ihat+y\jhat+z\khat$, i.e., the group of unit quaternions. Its easy to check that these basis elements work. 
+
+\begin{example}
+\exlabel
+
+In what ways are quaternions similar to $\CC$?
+\end{example}
+
+In the same way that complex numbers generalize $\RR$ by introducing another degree of freedom, quaternions do the same for $\CC$ by ``combining'' complex numbers. 
+
+For $\alpha = w+x\ihat + y\jhat + z\khat\in \HH$, we define the \ac{quaternion conjugate} $\overline{\alpha} = w-x\ihat - y\jhat - z\khat$. Conjugates for quaternions and complex numbers behave similarly:
+\begin{align*}
+    \overline{\alpha+\beta} &= \overline{\alpha}+\overline{\beta} \\
+    \overline{\alpha\beta}&=\overline{\beta}\overline{\alpha}
+\end{align*}
+Unlike complex multiplication, quaternion multiplication is not commutative, so we have to be careful. 
+
+Lengths multiply as usual. Note $\vert \alpha\vert^2 = \alpha\overline{\alpha} = w^2+x^2+y^2+z^2$, so  \begin{align*}
+    \vert\alpha\beta\vert^2 &= \alpha\beta\overline{\alpha\beta} = \alpha(\beta\overline{\beta})\overline{\alpha} \\ 
+    &= \alpha\overline{\alpha}\beta\overline{\beta}=\vert \alpha\vert^2\vert\beta\vert^2,
+\end{align*}
+where the third equality is true by the fact that $(\beta\overline{\beta})\in \RR$, so it commutes normally. This shows that $\vert\alpha\beta\vert = \vert\alpha\vert\vert\beta\vert$. 
+
+\subsection{$\HH$ is a Division Algebra}
+
+Given $\alpha\in \HH$ and $\alpha\neq 0$, then $\alpha$ has an inverse given by 
+\[\alpha^{-1} = \frac{\overline{\alpha}}{\vert\alpha\vert^2},\] 
+since $\alpha\alpha^{-1} =\alpha\overline{\alpha}/\vert\alpha\vert^2=1$. In this way, $\HH$ is just like a normal field: addition commutes, is associative, and has an inverse; both distributive laws hold; additive and multiplicative identites both exist; multiplication is associative and we've shown that multiplication has an inverse. The only thing missing is that multiplication is not commutative. 
+
+We call $\HH$ a \ac{division algebra}, or alternatively a \ac{skew field}. Which division algebras contain $\RR$? It turns out that $\RR$, $\CC$, and $\HH$ are the only examples. Sometimes, the definition of a division algebra also includes non-associative algebras, in which $\OO$ (the octonians) also contains $\RR$. 
+
+\begin{example}
+\exlabel
+
+What does $\vert\alpha\vert\vert\beta\vert^2 = \vert\alpha\beta\vert^2$ look like over the different division algebras containing $\RR$?
+\end{example}
+\noindent Over $\CC$, if we let $\alpha = w+ix$ and $\beta = y+iz$, this amounts to
+\[(w^2+x^2)(y^2+z^2) = (wy-xz)^2+(wz+xy)^2.\]
+Over $\HH$, 
+\begin{align*}
+    (a_1^2+a_2^2+a_3^2+a_4^2)(b_1^2+b_2^2+b_3^2+b_4^2) &= (a_1b_1-a_2b_2-a_3b_3-a_4b_4)^2 \\ 
+    &+ (a_1b_2+a_2b_1+a_3b_4-a_4b_3)^2 \\ 
+    &+ (a_1b_3+a_3b_1+a_2b_4-a_4b_2)^2 \\ 
+    &+ (a_1b_4+a_4b_1+a_2b_3-a_3b_2)^2.
+\end{align*}
+We can do the same thing over $\OO$, but its pretty nasty. Note that the right hand side of each expression is a bilinear form in the original input vectors $\alpha, \beta$. These so-called bilinear identities imply that any product of two sums of $n$ squares is also the sum of $n$ squares itself, at least for $n=1,2,4,8$. This fails when e.g. $n=3$:
+\[(1^1+1^1+1^1)(2^2+1^2+0^2)=15 \neq x^2+y^2+z^2\quad \text{for }x,y,z\in \ZZ.\]
+
+\begin{theorem}
+\thmlabelname{Hurwitz}
+
+A bilinear identity for sums of $n$ squares exist only when $n=1,2,4,8$.
+\end{theorem}
+
+What does linear algebra look like over a skew field? It's possible, but requires care, and we'll cover this a bit later. Prof. Cohn also promises to eventually connect all of this back to $SO_3$. 
+
+ 

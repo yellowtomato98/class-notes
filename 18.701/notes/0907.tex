@@ -1,0 +1,104 @@
+\section{September 7, 2022}
+
+\subsection{Class Policy}
+
+Lecturer: Professor Henry Cohn, \url{cohn@mit.edu}. Ten problem sets, six short quizzes, and two exams. Lowest two problem set scores and lowest quiz score will be dropped. Grading breakdown:
+\begin{itemize}
+    \item 40\% problem sets, $8$ at $5\%$ each
+    \item 20\% quizzes, $5$ at $4\%$ each
+    \item 40\% exams, $2$ at $20\%$ each
+\end{itemize}
+The textbook for this class is \textit{Algebra, 2nd Ed.} by Michael Artin. Throughout the course of the semester, we'll be covering topics in both \ac{linear and abstract algebras}. 
+
+\subsection{Basic Definitions}
+
+\begin{definition}
+\deflabel
+
+We'll start by introducing some notation for matrices and vectors.
+\end{definition}
+
+\begin{itemize}
+    \item Given an $m\times n$ matrix $A$, we say that $A\in \RR^{m\times n}$, and we notate $A$ in a few different ways:
+\[(A_{ij})_{1\leq i\leq n, 1\leq j\leq m}=\bordermatrix{ &&n&\cr
+                &&&\cr
+                m&&A_{ij}&\cr
+                &&&} = 
+\begin{pmatrix}A_{11}&A_{12}&\hdots & A_{1n}\\
+A_{21}&A_{22}&\hdots & A_{2n}\\
+\vdots &\vdots &\ddots &\vdots \\
+A_{m1}&A_{m2}&\hdots & A_{mn}
+\end{pmatrix}\]
+    \item Similarly, for any $n$-dimensional vector $x$, we say that $x\in \RR^n = \RR^{n\times 1}$, and notate $x=\begin{pmatrix}x_1 & \hdots & x_n\end{pmatrix}^t$.
+    \item Tensors are similar to matrices and vectors, but they're higher-dimensional equivalent. According to Prof. Cohn, they are ``wildly unclassified''. 
+\end{itemize}
+
+Here is a list of things that matrices are useful for: 
+\begin{itemize}
+    \item Linear Transformations, i.e., mappings of the form $x\mapsto Ax$ over some vector space. Affine transformations are an extension of linear transformations by allowing a constant term, i.e., maps of the form $x\mapsto Ax+b$. We'll cover both in later lectures
+    \item Bilinear Forms, which we'll cover in even later lectures
+    \item An infinite number of other applications. We won't have time to cover everything during this semester
+\end{itemize}
+
+Per the first example, we say that matrices represent linear transformations because any $A\in \RR^{m\times n}$ defines a transformation from $\RR^n$ to $\RR^m$:
+
+\[x = \begin{pmatrix}x_1\\ \vdots \\x_n\end{pmatrix}\in \RR^n\implies Ax = \begin{pmatrix}
+A_{11}x_1 + \hdots + A_{1n}x_n \\
+\vdots \\
+A_{m1}x_1 + \hdots + A_{mn}x_n 
+\end{pmatrix}\in \RR^{m}\]
+
+The idea of an affine transformations is to additionally allow constant term translations after applying $A$, an idea that we'll cover in more detail later in $18.701$. 
+
+\begin{theorem}
+\proplabel
+
+Let $A\in \RR^{m\times n}$, and $B\in \RR^{n\times p}$. Here are some key facts to remember about matrix multiplication.
+\end{theorem}
+
+\begin{itemize}
+    \item $AB\in \RR^{m\times p}$
+    \item $(AB)_{ik} = \sum_j A_{ij}B_{jk}$
+    \item $AB$ is a composition of linear transformations. For any $x\in \RR^{p}$, $Bx\in \RR^{n}$, and $A(Bx)\in \RR^{m}$, but also $(AB)x\in \RR^m$. It can be checked that composing $A\circ B$ is the same linear transformation as $AB$. 
+    \item Given another compatible matrix $C$, it is always true that $(AB)C = A(BC)$, which generalizes the idea in the last bullet point. In other words, matrix multiplication is associative. 
+    \item On the other hand, it is not usually true that matrix multiplication is commutative, i.e., that $AB=BA$. 
+\end{itemize}
+
+The following is not a theorem, but is an important fact, so I'll put it in a theorem box for emphasis. 
+
+\begin{theorem}
+\thmlabel
+
+Studying linear transformations and matrices in general should be viewed as a one-to-one relationship. In general, the intuition from one will almost always lead to intuition in the other, and studying one without the other lends itself to a poorer overall understanding of both. Linear transformations aren't the only application of matrices, but it is a very important one, and this perspective will more or less drive the way that we study matrices in this class. 
+\end{theorem}
+
+\subsection{Groups}
+
+\begin{definition}
+\deflabel
+
+A \ac{group} $G$ is a set $G$ with binary operator \texttt{*} satisfying three conditions: 
+
+\begin{itemize}
+    \item Associativity: $(fg)h = f(gh)$ for all $f,g,h\in G$. 
+    \item Identity: $\exists I\in G$ s.t. $gI = Ig = g\quad \forall g\in G$.
+    \item Inverse: $\forall g\in G$, $\exists h\in G$ s.t. $gh=hg=1$, $h=g^{-1}$.
+\end{itemize}
+\end{definition}
+
+The way we write the binary operator does not matter (e.g., \texttt{*}, $\cdot$, $\circ$, etc.) so long as we don't mix binary operators between different groups. 
+
+The point of groups is that they ``act'' on stuff. More on this in later lectures. 
+
+\begin{example}
+\exlabel
+
+Let's look at some examples and non-examples of groups.
+\end{example}
+
+\begin{itemize}
+    \item $(\RR, +)$ is a group. On the other hand, $(\RR, \times)$ is not a group, since $0$ has no inverse.
+    \item $\GL_n(\RR) = \{A\in \RR^{n\times n}, A\text{ invertible}\}$, with the operator of normal matrix multiplication, is a group. This group of matrices is called the \ac{general linear group}. 
+    \item $\SL_n(\RR) = \{A\in \RR^{n\times n}, \det A = 1\}$ is called the \ac{special linear group}. This group of matrices preserves volume and orientation (fixed determinant). 
+    \item $S_n$ is the group of permutations of order $n$, with the operator of composition. This group is called the \ac{symmetric group}. For instance, an element of $S_6$ might swap $1$ and $3$, fix $4$, and cycle $2,5,6$, which we would notate $(1 3)(2 5 6)$. 
+\end{itemize}

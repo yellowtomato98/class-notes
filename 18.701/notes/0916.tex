@@ -1,0 +1,111 @@
+\section{September 16, 2022}
+
+\subsection{Normal Subgroups}
+
+Recall from last lecture: 
+
+\begin{definition}
+\deflabel
+
+Given a group $G$ and a subgroup $H$, a left coset of $H$ in $G$ is any
+\[gH = \{gh : h\in H\}\]
+with $g\in G$. 
+\end{definition}
+
+These cosets partition $G$ into subsets of the same size. By Lagrange's Theorem:
+\[\vert G\vert  = \vert H\vert [G:H].\]
+
+Right cosets $Hg=\{hg : h\in H\}$ behave the same way. An easy way to show that this is true, i.e., that every right and left coset has the same number of elements, is to see that $(gH)^{-1} = H^{-1}g^{-1}=Hg^{-1}$, which works since $H$ is closed under inverses. 
+
+How do the partitions differ between right and left cosets?
+
+\begin{example}
+\exlabel
+
+Let $G=S_3$, and $H = \{1,(123),(132)\}$. 
+\end{example}
+In this example, 
+\[(1 2)H = \{(12),(23),(13)\} = H(1 2),\]
+so the right and left cosets are the same. It can be shown that $gH=Hg$ for all $g\in G$, so the right and left cosets make the same partition. This is not typical. It is also worth mentioning that $H$ is the kernel of the sign homomorphism $\text{sgn}: G\rightarrow \{\pm 1\}$.
+
+\begin{example}
+\exlabel
+
+Let $G=S_3$, and $H = \{1, (12)\}$.
+\end{example}
+In this example,
+\begin{align*}
+    & (13)H = \{(13), (123)\} & H(13) = \{(13),(132)\} \\
+    & (23)H = \{(23), (132)\} & H(23) = \{(23), (123)\},
+\end{align*}
+so the partitions aren't the same. This is typical. 
+
+Suppose we have a homomorphism $f:G\rightarrow H$. We can prove that the observation we made in Example $5.2$ is not a coincidence. Let $K = \ker(f)$. Then, for all $g\in G$, $gK = \{gk : k\in K\} = \{g'\in G : f(g')=f(g)\}$ (we proved the second equality last lecture). Similarly, $Kg = \{kg : k\in K\} = \{g'\in G : f(g')=f(g)\}$, so $gK=Kg$ always. 
+
+\begin{definition}
+\deflabel
+
+$H$ is a \ac{normal subgroup} of $G$ if $H$ is a subgroup of $G$ and $gH=Hg$ for all $g\in G$. 
+\end{definition}
+
+A few things to note:
+\begin{itemize}
+    \item $gH=Hg\iff gHg^{-1}=H$. Subgroups of this form are called \ac{conjugate subgroups}, and these are always subgroups. 
+    \item $gH=Hg\centernot\iff gh=hg\forall h\in H$. Rather, $\{gh : h\in H\} = \{hg : h\in H\}$. 
+    \item ``normal'' does not mean typical. In fact, normal subgroups are not typical at all. The vast majority of subgroups won't be normal (the naming is counterintuitive). 
+\end{itemize}
+
+Now we can prove what we proved above more succinctly:
+\begin{theorem}
+\proplabel
+
+Let $f:G\rightarrow H$ be a homomorphism with kernel $K$. Then $K$ is a normal subgroup in $G$.
+\end{theorem}
+
+\begin{proof}
+For all $k\in K$,
+$f(g^{-1}kg) = f(g^{-1})f(k)f(g) = 1$, so $g^{-1}kg\in K\iff g^{-1}Kg\subseteq K$. Substituting $g^{-1}$ for $g$ further gives $gKg^{-1}\subseteq K$, so $gKg^{-1}=K$ and the result follows. 
+\end{proof}
+
+The converse is also true!
+
+\subsection{Correspondence Theorem}
+
+\begin{theorem}
+\thmlabelname{Correspondence Theorem}
+
+Let $f:G\rightarrow G'$ be a surjective homomorphism, i.e., $\im (f) = G'$. Then, there exists a bijection between the set of all subgroups $H'$ of $G'$, and the set of all subgroups $H$ of $G$ with $K\subseteq H$. 
+
+The bijection is given by
+\begin{align*}
+    \text{forward direction: }&H\mapsto f(H) = \{f(h) : h\in H\}\\
+    \text{reverse direction: }&H'\mapsto f^{-1}(H') = \{g\in G : f(g)\in H'\}.
+\end{align*}
+\end{theorem}
+
+Let's look at some examples.
+
+\begin{example}
+\exlabel
+
+$\det : GL_n(\RR)\rightarrow \RR^\times$.
+\end{example}
+$\ker(\det) = \SL_n(\RR)$. By the correspondence theorem, subgroups of $\GL_n(\RR)$ that contains $\SL_n(\RR)$ correspond with subgroups of $\RR^\times$. For example, $\{A \in \GL_n(\RR) : \det A\in \QQ\}\subseteq \GL_n(\RR)$ can be seen as corresponding to $\QQ^\times\subseteq \RR^\times$. 
+
+\begin{example}
+\exlabel
+
+$f:\ZZ\rightarrow C_n$ with $1\mapsto \text{generator}$.
+\end{example}
+
+$\ker(f) = n\ZZ$, so the correspondence theorem gives us
+\begin{align*}
+\text{subgroups of }C_n&\iff \text{subgroups }d\ZZ\text{ of }\ZZ\text{ that contain }n\ZZ \\
+&\iff \text{positive integers }d\text{ s.t. }d\mid n.
+\end{align*}
+
+This intuitively makes sense, since subgroups of $C_n$ are also cyclic, and choosing a subgroup amounts to choosing the new order (which divides $n$) of the subgroup. 
+
+
+
+
